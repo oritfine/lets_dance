@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/my_videos.dart';
-import 'package:lets_dance/screens/upload_video/browse_video.dart';
+import 'package:lets_dance/screens/upload_video/browse_video_prev.dart';
 import 'package:lets_dance/shared/menu/menu_item.dart';
 
+import '../../screens/upload_video/browse_video.dart';
 import '../../services/auth.dart';
 
 class NavigationMenu extends StatelessWidget {
   NavigationMenu({Key? key, required this.auth});
   final AuthService auth;
 
+  // Navigate by index which was sent to function
   void onItemPressed(BuildContext context, {required int index}) {
     Navigator.pop(context);
     switch (index) {
@@ -18,7 +20,9 @@ class NavigationMenu extends StatelessWidget {
         break;
       case 1:
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => BrowseVideo()));
+            //context, MaterialPageRoute(builder: (context) => BrowseVideo()));
+            context,
+            MaterialPageRoute(builder: (context) => BrowseVideo()));
         break;
       case 2:
         break;

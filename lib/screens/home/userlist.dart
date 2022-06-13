@@ -36,11 +36,15 @@ class _userListState extends State<userList> {
     //   print(doc.data());
     // }
     //}
-    return ListView.builder(
-      itemCount: users.length,
-      itemBuilder: (context, index) {
-        return UserTile(user: users[index]);
-      },
-    );
+    try {
+      return ListView.builder(
+        itemCount: users.length,
+        itemBuilder: (context, index) {
+          return UserTile(user: users[index]);
+        },
+      );
+    } catch (e) {
+      return Container();
+    }
   }
 }
