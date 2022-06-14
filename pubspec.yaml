@@ -39,6 +39,7 @@ dependencies:
   firebase_auth: ^3.1.10
  # cloud_firestore: ^0.12.9+4
   cloud_firestore: ^3.1.9
+  firebase_storage: ^10.2.17
   firebase: ^9.0.3
   provider: ^4.0.0
   flutter_spinkit: ^4.0.0
@@ -73,10 +74,95 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-
+  assets:
+     - images/backgrounds/pic1.jpg
+     - images/backgrounds/pic2.jpg
+     - images/backgrounds/pic3.JPG
+     - images/backgrounds/pic4.jpeg
+     - images/backgrounds/pic5.jpg
+     - images/background_images/0.jpg
+     - images/background_images/1.jpg
+     - images/background_images/2.jpg
+     - images/background_images/3.jpg
+     - images/background_images/4.jpg
+     - images/background_images/5.jpg
+     - images/background_images/6.jpg
+     - images/background_images/7.jpg
+     - images/background_images/8.jpg
+     - images/background_images/9.jpg
+     - images/background_images/10.jpg
+     - images/background_images/11.jpg
+     - images/background_images/12.jpg
+     - images/background_images/13.jpg
+     - images/background_images/14.jpg
+     - images/background_images/15.jpg
+     - images/background_images/16.jpg
+     - images/background_images/17.jpg
+     - images/background_images/18.jpg
+     - images/background_images/19.jpg
+     - images/background_images/20.jpg
+     - images/background_images/21.jpg
+     - images/background_images/22.jpg
+     - images/background_images/23.jpg
+     - images/background_images/24.jpg
+     - images/background_images/25.jpg
+     - images/background_images/26.jpg
+     - images/background_images/27.jpg
+     - images/background_images/28.jpg
+     - images/background_images/29.jpg
+     - images/background_images/30.jpg
+     - images/background_images/31.jpg
+     - images/background_images/32.jpg
+     - images/background_images/33.jpg
+     - images/background_images/34.jpg
+     - images/background_images/35.jpg
+     - images/background_images/36.jpg
+     - images/background_images/37.jpg
+     - images/background_images/38.jpg
+     - images/background_images/39.jpg
+     - images/background_images/40.jpg
+     - images/background_images/41.jpg
+     - images/background_images/42.jpg
+     - images/background_images/43.jpg
+     - images/background_images/44.jpg
+     - images/background_images/45.jpg
+     - images/background_images/46.jpg
+     - images/background_images/47.jpg
+     - images/background_images/48.jpg
+     - images/background_images/49.jpg
+     - images/background_images/50.jpg
+     - images/background_images/51.jpg
+     - images/faces/Angle.png
+     - images/faces/Angry.png
+     - images/faces/Bazz.png
+     - images/faces/Beast.png
+     - images/faces/Belle.png
+     - images/faces/Boy.png
+     - images/faces/Cinderella.png
+     - images/faces/Crazy.png
+     - images/faces/Crying.png
+     - images/faces/Dollar.png
+     - images/faces/Elsa.png
+     - images/faces/Flower-Girl.png
+     - images/faces/Genie.png
+     - images/faces/Girl.png
+     - images/faces/Glasses.png
+     - images/faces/Kiss.png
+     - images/faces/Laugh.png
+     - images/faces/Laugh-2.png
+     - images/faces/MiniMouse.png
+     - images/faces/Nerd.png
+     - images/faces/NerdGirl.png
+     - images/faces/Piggi.png
+     - images/faces/Red-Angry.png
+     - images/faces/Shocking.png
+     - images/faces/Simba.png
+     - images/faces/Star-Wars.png
+     - images/faces/Stitch.png
+     - images/faces/Sun.png
+     - images/faces/Tinkerbell.png
+     - images/faces/Unicorn-Poop.png
+     - images/faces/Winking-Girl.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

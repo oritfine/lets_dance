@@ -125,7 +125,7 @@ class _BrowseVideoState extends State<BrowseVideo> {
                       ],
                     ),
                   ),
-            SizedBox(height: 230),
+            SizedBox(height: 250),
             Padding(
               padding: EdgeInsets.only(left: 250),
               child: ElevatedButton(
@@ -133,11 +133,12 @@ class _BrowseVideoState extends State<BrowseVideo> {
                   child: Text('Next', style: TextStyle(color: Colors.white)),
                   onPressed: isNextActive
                       ? () {
-                          print('orit' + isNextActive.toString());
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChooseBackground()));
+                                  builder: (context) => ChooseBackground(
+                                      videoPlayerController:
+                                          _videoPlayerController)));
                         }
                       : null),
             ),
