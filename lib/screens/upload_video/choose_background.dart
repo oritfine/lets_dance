@@ -199,8 +199,8 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                                   builder: (context) => ChooseFace(
                                         videoPlayerController:
                                             widget.videoPlayerController,
-                                        backgroundIndex:
-                                            selectedIndex.toString(),
+                                        backgroundName:
+                                            selectedIndex.toString() + '.jpg',
                                       )));
                         }
                       : null),

@@ -1,15 +1,17 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:lets_dance/screens/upload_video/background_tile.dart';
+import 'package:lets_dance/screens/upload_video/face_tile.dart';
+import 'package:lets_dance/screens/upload_video/save_video.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
 
 class ChooseFace extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
-  final String backgroundIndex;
+  final String backgroundName;
+
   ChooseFace(
-      {required this.videoPlayerController, required this.backgroundIndex});
+      {required this.videoPlayerController, required this.backgroundName});
 
   @override
   _ChooseFaceState createState() => _ChooseFaceState();
@@ -19,6 +21,40 @@ class _ChooseFaceState extends State<ChooseFace> {
   bool isNextActive = false;
   int selectedIndex = -1;
   final Storage storage = Storage();
+
+  List<String> facesNames = [
+    'Angle',
+    'Angry',
+    'Bazz',
+    'Beast',
+    'Belle',
+    'Boy',
+    'Cinderella',
+    'Crazy',
+    'Crying',
+    'Dollar',
+    'Elsa',
+    'Flower-Girl',
+    'Genie',
+    'Girl',
+    'Glasses',
+    'Kiss',
+    'Laugh',
+    'Laugh-2',
+    'MiniMouse',
+    'Nerd',
+    'NerdGirl',
+    'Piggi',
+    'Red-Angry',
+    'Shocking',
+    'Simba',
+    'Star-Wars',
+    'Stitch',
+    'Sun',
+    'Tinkerbell',
+    'Unicorn-Poop',
+    'Winking-Girl'
+  ];
 
   void selectIndex(int index) {
     setState(() {
@@ -32,7 +68,7 @@ class _ChooseFaceState extends State<ChooseFace> {
     return Scaffold(
       backgroundColor: Colors.brown[50],
       appBar: AppBar(
-        title: const Text('choose background'),
+        title: const Text('choose emoji'),
         centerTitle: true,
       ),
       body: Padding(
@@ -79,7 +115,7 @@ class _ChooseFaceState extends State<ChooseFace> {
             //       )
             //     : Container(),
             //
-            Text('Choose a background for your video:',
+            Text('Choose an emoji for your avatar:',
                 style: TextStyle(color: Colors.black, fontSize: 18)),
             SizedBox(height: 20),
             // Container(
@@ -114,15 +150,15 @@ class _ChooseFaceState extends State<ChooseFace> {
                 //padding: const EdgeInsets.all(400),
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
-                crossAxisCount: 2,
-                childAspectRatio: (170.0 / 110.0),
+                crossAxisCount: 3,
+                childAspectRatio: (70.0 / 80.0),
                 children: [
-                  for (int i = 0; i < 52; i++)
-                    BackgroundTile(
-                      backgroundPath: 'images/background_images/$i.jpg',
+                  for (int i = 0; i < 31; i++)
+                    FaceTile(
+                      facePath: 'images/faces/${facesNames[i]}.png',
                       onTap: () => selectIndex(i),
                       selected: i == selectedIndex,
-                      backgroundIndex: i,
+                      faceName: facesNames[i],
                     ),
                 ],
               ),
@@ -187,13 +223,28 @@ class _ChooseFaceState extends State<ChooseFace> {
             SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 250),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
-                  child: Text('Next', style: TextStyle(color: Colors.white)),
-                  onPressed: isNextActive ? () {} : null),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.only(left: 250),
+            //   child: ElevatedButton(
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
+                child: Text('Generate your Lets Dance video!',
+                    style: TextStyle(color: Colors.white)),
+                onPressed: isNextActive
+                    ? () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SaveVideo(
+                                      videoPlayerController:
+                                          widget.videoPlayerController,
+                                      backgroundName: widget.backgroundName,
+                                      faceName:
+                                          facesNames[selectedIndex] + '.png',
+                                    )));
+                      }
+                    : null),
+            //),
           ],
         ),
       ),
