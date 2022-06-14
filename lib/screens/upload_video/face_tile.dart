@@ -5,7 +5,7 @@ class FaceTile extends StatefulWidget {
   final VoidCallback onTap;
   final bool selected;
   final String faceName;
-  //const BackgroundTile({Key? key}) : super(key: key);
+
   FaceTile(
       {required this.facePath,
       required this.onTap,
@@ -16,8 +16,6 @@ class FaceTile extends StatefulWidget {
 }
 
 class _FaceTileState extends State<FaceTile> {
-  // int selected = 0;
-
 //   @override
 //   Widget build(BuildContext context) {
 //     return Padding(
