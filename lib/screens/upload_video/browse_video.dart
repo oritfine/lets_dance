@@ -40,7 +40,7 @@ class _BrowseVideoState extends State<BrowseVideo> {
         backgroundColor: Colors.brown[50],
         appBar: AppBar(
           backgroundColor: Colors.brown[400],
-          title: Text('upload your video'),
+          title: Text('Upload New Video'),
         ),
         body: Column(
           children: [
@@ -54,7 +54,7 @@ class _BrowseVideoState extends State<BrowseVideo> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               primary: Colors.pink[400]),
-                          child: Text('Upload New Video',
+                          child: Text('Browse',
                               style: TextStyle(color: Colors.white)),
                           onPressed: () {
                             _pickVideo();
@@ -74,7 +74,7 @@ class _BrowseVideoState extends State<BrowseVideo> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               primary: Colors.pink[400]),
-                          child: Text('Upload New Video',
+                          child: Text('Browse',
                               style: TextStyle(color: Colors.white)),
                           onPressed: () {
                             _pickVideo();

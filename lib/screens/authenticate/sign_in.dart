@@ -77,7 +77,7 @@ class _SignInState extends State<SignIn> {
                       style:
                           ElevatedButton.styleFrom(primary: Colors.pink[400]),
                       child: Text(
-                        'Sign in',
+                        'Sign In',
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {

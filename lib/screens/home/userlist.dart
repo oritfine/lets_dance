@@ -13,7 +13,10 @@ class userList extends StatefulWidget {
 class _userListState extends State<userList> {
   @override
   Widget build(BuildContext context) {
+    print(context);
     final users = Provider.of<List<User>>(context);
+    print('my users is:');
+    print(users);
     // users.forEach((user) {
     //   print(user.name);
     //   print(user.number);
@@ -21,7 +24,7 @@ class _userListState extends State<userList> {
     try {
       users.forEach((user) {
         print(user.name);
-        print(user.num);
+        //print(user.num);
       });
     } catch (e) {
       print('users not found');

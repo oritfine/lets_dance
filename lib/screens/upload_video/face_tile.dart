@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FaceTile extends StatefulWidget {
   final String facePath;
@@ -56,10 +57,10 @@ class _FaceTileState extends State<FaceTile> {
                           widget.faceName,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
-                          // style: GoogleFonts.josefinSans(
-                          //     fontWeight: FontWeight.w700,
-                          //     fontSize: 21,
-                          //     color: Colors.white),
+                          style: GoogleFonts.josefinSans(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                              color: Colors.black),
                         ),
                       ),
                       Image.asset(

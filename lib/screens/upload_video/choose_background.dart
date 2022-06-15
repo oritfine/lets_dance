@@ -31,7 +31,7 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
     return Scaffold(
       backgroundColor: Colors.brown[50],
       appBar: AppBar(
-        title: const Text('choose background'),
+        title: const Text('Choose Background'),
         centerTitle: true,
       ),
       body: Padding(
