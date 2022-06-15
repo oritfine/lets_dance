@@ -10,8 +10,12 @@ class NavigationMenu extends StatelessWidget {
   NavigationMenu({
     Key? key,
     required this.auth,
+    required this.email,
+    required this.username,
   });
   final AuthService auth;
+  final String? email;
+  final String? username;
 
   // Navigate by index which was sent to function
   void onItemPressed(BuildContext context, {required int index}) {
@@ -67,12 +71,12 @@ class NavigationMenu extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(/*user.name*/ 'Username',
+                  Text(username!,
                       style: TextStyle(fontSize: 20, color: Colors.white)),
                   SizedBox(
                     height: 10,
                   ),
-                  Text('add mail',
+                  Text(email!,
                       style: TextStyle(fontSize: 18, color: Colors.white)),
                 ],
               )

@@ -164,10 +164,10 @@ flutter:
      - images/faces/Tinkerbell.png
      - images/faces/Unicorn-Poop.png
      - images/faces/Winking-Girl.png
-#     - google_fonts/josefin_sans
-#     - google_fonts/Passion_One
-#     - google_fonts/Signika
-#     - google_fonts/Signika_Negative
+     - google_fonts/josefin_sans/
+     - google_fonts/Passion_One/
+     - google_fonts/Signika/
+     - google_fonts/Signika_Negative/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

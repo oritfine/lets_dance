@@ -58,8 +58,8 @@ class _FaceTileState extends State<FaceTile> {
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.josefinSans(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
                               color: Colors.black),
                         ),
                       ),
@@ -84,10 +84,10 @@ class _FaceTileState extends State<FaceTile> {
                           widget.faceName,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.ellipsis,
-                          // style: GoogleFonts.josefinSans(
-                          //     fontWeight: FontWeight.w700,
-                          //     fontSize: 21,
-                          //     color: Colors.white),
+                          style: GoogleFonts.josefinSans(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              color: Colors.black),
                         ),
                       ),
                       Image.asset(

@@ -14,7 +14,7 @@ class _userListState extends State<userList> {
   @override
   Widget build(BuildContext context) {
     print(context);
-    final users = Provider.of<List<User>>(context);
+    final users = Provider.of<List<UserModel>>(context);
     print('my users is:');
     print(users);
     // users.forEach((user) {
