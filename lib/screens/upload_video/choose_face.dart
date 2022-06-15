@@ -68,7 +68,7 @@ class _ChooseFaceState extends State<ChooseFace> {
     return Scaffold(
       backgroundColor: Colors.brown[50],
       appBar: AppBar(
-        title: const Text('choose emoji'),
+        title: const Text('Choose Emoji'),
         centerTitle: true,
       ),
       body: Padding(
@@ -228,7 +228,7 @@ class _ChooseFaceState extends State<ChooseFace> {
             //   child: ElevatedButton(
             ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
-                child: Text('Generate your Lets Dance video!',
+                child: Text('Generate your Lets-Dance video!',
                     style: TextStyle(color: Colors.white)),
                 onPressed: isNextActive
                     ? () {

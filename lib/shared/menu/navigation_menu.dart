@@ -7,7 +7,10 @@ import '../../screens/upload_video/browse_video.dart';
 import '../../services/auth.dart';
 
 class NavigationMenu extends StatelessWidget {
-  NavigationMenu({Key? key, required this.auth});
+  NavigationMenu({
+    Key? key,
+    required this.auth,
+  });
   final AuthService auth;
 
   // Navigate by index which was sent to function
@@ -64,7 +67,7 @@ class NavigationMenu extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('add username',
+                  Text(/*user.name*/ 'Username',
                       style: TextStyle(fontSize: 20, color: Colors.white)),
                   SizedBox(
                     height: 10,

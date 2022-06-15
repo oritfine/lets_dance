@@ -28,9 +28,7 @@ class Home extends StatelessWidget {
       value: DatabaseService().users,
       catchError: (_, err) => null,
       child: Scaffold(
-        drawer: NavigationMenu(
-          auth: _auth,
-        ),
+        drawer: NavigationMenu(auth: _auth),
         backgroundColor: Colors.brown[50],
         appBar: AppBar(
           title: Text('Lets Dance'),

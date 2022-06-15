@@ -20,6 +20,7 @@ class _RegisterState extends State<Register> {
   bool loading = false;
 
   // text field state
+  String username = '';
   String email = '';
   String password = '';
   String error = '';
@@ -56,6 +57,15 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: 20.0),
                     TextFormField(
                         decoration:
+                            textInputDecoration.copyWith(hintText: 'Username'),
+                        validator: (val) =>
+                            val!.isEmpty ? 'Enter a username' : null,
+                        onChanged: (val) {
+                          setState(() => username = val);
+                        }),
+                    SizedBox(height: 20.0),
+                    TextFormField(
+                        decoration:
                             textInputDecoration.copyWith(hintText: 'Email'),
                         validator: (val) =>
                             val!.isEmpty ? 'Enter an email' : null,
@@ -84,8 +94,9 @@ class _RegisterState extends State<Register> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           setState(() => loading = true);
-                          dynamic result = await _auth
-                              .registerWithEmailAndPassword(email, password);
+                          dynamic result =
+                              await _auth.registerWithEmailAndPassword(
+                                  username, email, password);
                           if (result == null) {
                             setState(() {
                               loading = false;
