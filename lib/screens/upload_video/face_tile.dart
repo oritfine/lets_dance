@@ -52,17 +52,19 @@ class _FaceTileState extends State<FaceTile> {
                   padding: const EdgeInsets.only(left: 5, right: 5),
                   child: Column(
                     children: [
-                      Flexible(
-                        child: Text(
-                          widget.faceName,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.josefinSans(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              color: Colors.black),
-                        ),
+                      //Flexible(
+                      //child: Text(
+                      Text(
+                        widget.faceName,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.josefinSans(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.black),
                       ),
+                      SizedBox(height: 7),
+                      // ),
                       Image.asset(
                         widget.facePath,
                         fit: BoxFit.contain,
@@ -79,17 +81,19 @@ class _FaceTileState extends State<FaceTile> {
                   padding: const EdgeInsets.only(left: 5, right: 5),
                   child: Column(
                     children: [
-                      Flexible(
-                        child: Text(
-                          widget.faceName,
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.josefinSans(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              color: Colors.black),
-                        ),
+                      //Flexible(
+                      // child: Text(
+                      Text(
+                        widget.faceName,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.josefinSans(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.black),
                       ),
+                      //),
+                      SizedBox(height: 7),
                       Image.asset(
                         widget.facePath,
                         fit: BoxFit.contain,

@@ -24,7 +24,7 @@ class _ChooseFaceState extends State<ChooseFace> {
 
   List<String> facesNames = [
     'Angle',
-    'Angry',
+    //'Angry',
     'Bazz',
     'Beast',
     'Belle',
@@ -32,10 +32,10 @@ class _ChooseFaceState extends State<ChooseFace> {
     'Cinderella',
     'Crazy',
     'Crying',
-    'Dollar',
+    //'Dollar',
     'Elsa',
     'Flower-Girl',
-    'Genie',
+    //'Genie',
     'Girl',
     'Glasses',
     'Kiss',
@@ -148,12 +148,12 @@ class _ChooseFaceState extends State<ChooseFace> {
               child: GridView.count(
                 primary: false,
                 //padding: const EdgeInsets.all(400),
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 15,
                 crossAxisCount: 3,
-                childAspectRatio: (70.0 / 80.0),
+                childAspectRatio: (70.0 / 95.0),
                 children: [
-                  for (int i = 0; i < 31; i++)
+                  for (int i = 0; i < 28; i++)
                     FaceTile(
                       facePath: 'images/faces/${facesNames[i]}.png',
                       onTap: () => selectIndex(i),
@@ -163,69 +163,9 @@ class _ChooseFaceState extends State<ChooseFace> {
                 ],
               ),
             ),
-            /*show list from firebase storage - not in use for now
-            Icon(Icons.photo, size: 200),
-            FutureBuilder(
-                future: storage.listFiles('backgrounds'),
-                builder: (BuildContext context,
-                    AsyncSnapshot<firebase_storage.ListResult> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
-                    return Container(
-                      //scrollDirection:
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 500,
-                      child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          //shrinkWrap: true,
-                          itemCount: snapshot.data!.items.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: snapshot.data!.items.isNotEmpty
-                                  ? FutureBuilder(
-                                      future: storage.downloadURL(snapshot
-                                          .data!.items![index].fullPath),
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<String> snapshot) {
-                                        if (snapshot.connectionState ==
-                                                ConnectionState.done &&
-                                            snapshot.hasData) {
-                                          return Container(
-                                              width: 300,
-                                              height: 250,
-                                              child: Image.network(
-                                                  snapshot.data!,
-                                                  fit: BoxFit.cover));
-                                        }
-                                        if (snapshot.connectionState ==
-                                                ConnectionState.waiting ||
-                                            !snapshot.hasData) {
-                                          //TODO my circle progress
-                                          print(snapshot);
-                                          return CircularProgressIndicator();
-                                        }
-                                        return Container();
-                                      })
-                                  : Container(),
-                            );
-                          }),
-                    );
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting ||
-                      !snapshot.hasData) {
-                    //TODO my circle progress
-                    print(snapshot);
-                    return CircularProgressIndicator();
-                  }
-                  return Container();
-                }),*/
             SizedBox(
               height: 20,
             ),
-            // Padding(
-            //   padding: EdgeInsets.only(left: 250),
-            //   child: ElevatedButton(
             ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
                 child: Text('Generate your Lets-Dance video!',
@@ -244,7 +184,6 @@ class _ChooseFaceState extends State<ChooseFace> {
                                     )));
                       }
                     : null),
-            //),
           ],
         ),
       ),

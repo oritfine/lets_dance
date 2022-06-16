@@ -5,17 +5,17 @@ import 'package:lets_dance/services/auth.dart';
 import 'package:lets_dance/services/database.dart';
 import 'package:lets_dance/shared/menu/navigation_menu.dart';
 import 'package:provider/provider.dart';
+import '../../feed.dart';
 import '../../models/user.dart';
+import '../../models/video.dart';
+import '../../models/videos.dart';
+import '../videos_list.dart';
 
 class Home extends StatelessWidget {
   //const ({Key? key}) : super(key: key);
   final AuthService _auth = AuthService();
   final FirebaseAuth firebase_auth = FirebaseAuth.instance;
-  void func() {
-    final User? user = firebase_auth.currentUser;
-    print(user);
-    //user.
-  }
+  final DatabaseService _db = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,9 @@ class Home extends StatelessWidget {
           });
     }
 
-    return StreamProvider<List<UserModel>>.value(
+    return StreamProvider<List<Video>>.value(
       // listening to stream of users which will reflect the firestore collection
-      value: DatabaseService().users,
+      value: DatabaseService().videos,
       catchError: (_, err) => null,
       child: Scaffold(
         drawer: NavigationMenu(
@@ -67,10 +67,6 @@ class Home extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Container(
-              height: 200,
-              child: userList(),
-            ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
               child: Text(
@@ -78,8 +74,23 @@ class Home extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () async {
-                func();
+                // Map<String, String> videos = {
+                //   'video1': 'url1',
+                //   'video2': 'url2',
+                //   'video3': 'url3'
+                // };
+                //_db.updateUserVideosData(videos);
+                // _db.updateVideos(
+                //     'video2', 'videos/final_maddie1_smoothed.mp4', 0);
+                // _db.updateVideos('video3', 'videos/final_slidin_g.mp4', 5);
+                // _db.updateVideos(
+                //     'video4', 'videos/final_slidin_g_smoothed.mp4', 2);
               },
+            ),
+            Container(
+              height: 600,
+              //child: MyVideosList(uid: firebase_auth.currentUser?.uid),
+              child: VideoList(),
             ),
           ],
         ),

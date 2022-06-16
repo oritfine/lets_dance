@@ -7,6 +7,7 @@ import 'package:lets_dance/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Firebase.apps.isEmpty) {
