@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +8,10 @@ import 'dart:convert';
 
 class BrowseVideo extends StatefulWidget {
   //const BrowseVideo({Key? key}) : super(key: key);
-  late final String serverUrl;
+  final String uid;
+  final String username;
+
+  const BrowseVideo({super.key, required this.uid, required this.username});
 
   @override
   _BrowseVideoState createState() => _BrowseVideoState();
@@ -20,26 +22,27 @@ class _BrowseVideoState extends State<BrowseVideo> {
   File? _video;
   final picker = ImagePicker();
   bool isNextActive = false;
+  late final String serverUrl;
 
   // String get url {
   //   return serverUrl;
   // }
 
-  void _sendVideo(File video) async {
-    var dio = Dio();
-    String fileName = video.path.split('/').last;
-    FormData formData = FormData.fromMap({
-      "file": await MultipartFile.fromFile(video.path, filename: fileName),
-    });
-    var response = await dio.post('http://172.20.1.109:80/upload');
-    print(response);
-    return response.data['id'];
-    // FormData formData = FormData.fromMap({
-    //   "name": "wendux",
-    //   "file1": MultipartFile(video, "upload1.jpg")
-    // });
-    // response = await dio.post("/info", data: formData)
-  }
+  // void _sendVideo(File video) async {
+  //   var dio = Dio();
+  //   String fileName = video.path.split('/').last;
+  //   FormData formData = FormData.fromMap({
+  //     "file": await MultipartFile.fromFile(video.path, filename: fileName),
+  //   });
+  //   var response = await dio.post('http://172.20.1.109:80/upload');
+  //   print(response);
+  //   return response.data['id'];
+  //   // FormData formData = FormData.fromMap({
+  //   //   "name": "wendux",
+  //   //   "file1": MultipartFile(video, "upload1.jpg")
+  //   // });
+  //   // response = await dio.post("/info", data: formData)
+  // }
 
   void _uploadFileToServer(File video) async {
     String serverUrl = '';
@@ -117,7 +120,7 @@ class _BrowseVideoState extends State<BrowseVideo> {
                   )
                 : Column(
                     children: [
-                      SizedBox(height: 20.0),
+                      const SizedBox(height: 20.0),
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 160, top: 30, right: 150),
@@ -195,7 +198,9 @@ class _BrowseVideoState extends State<BrowseVideo> {
                                   builder: (context) => ChooseBackground(
                                         videoPlayerController:
                                             _videoPlayerController,
-                                        serverUrl: widget.serverUrl,
+                                        serverUrl: serverUrl,
+                                        uid: widget.uid,
+                                        username: widget.username,
                                       )));
                         }
                       : null),

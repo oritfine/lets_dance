@@ -7,5 +7,6 @@ class Video {
     required this.name,
     required this.url,
     required this.likes,
+    required user_id,
   });
 }

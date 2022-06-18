@@ -1,17 +1,24 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:lets_dance/shared/constants.dart';
 import 'package:video_player/video_player.dart';
 import 'package:lets_dance/shared/loading.dart';
+import 'package:http/http.dart' as http;
+
+import '../../services/database.dart';
 
 class SaveVideo extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
   final String backgroundName;
   final String faceName;
+  final String uid;
 
   SaveVideo(
       {required this.videoPlayerController,
       required this.backgroundName,
-      required this.faceName});
+      required this.faceName,
+      required this.uid});
 
   @override
   _SaveVideoState createState() => _SaveVideoState();
@@ -22,6 +29,32 @@ class _SaveVideoState extends State<SaveVideo> {
   String error = '';
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
+  final DatabaseService _db = DatabaseService();
+
+  Future<bool> _sendDataToServer() async {
+    var request = http.MultipartRequest(
+        "POST", Uri.parse('http://172.20.1.109:8080/saveName'));
+    request.fields['video_name'] = videoName;
+    print(request);
+    request.send().then((response) {
+      http.Response.fromStream(response).then((onValue) async {
+        //TODO return response status
+        // try {
+        //   response.stream.listen((newBytes) {
+        //     bytes.addAll(newBytes);
+        //   });
+        //   Future<File> video = File('/video.mp4').writeAsBytes(bytes);
+        //   print(response);
+        //
+        //   print('hi');
+        //   // get your response here...
+        // } catch (e) {
+        //   print(e);
+        //   //Todo show message - upload your video again
+      });
+    });
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,16 +131,28 @@ class _SaveVideoState extends State<SaveVideo> {
                               style: TextStyle(color: Colors.white)),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              setState(() => loading = true);
-                              // dynamic result = await _auth
-                              //     .signInWithEmailAndPassword(email, password);
-                              dynamic result = 1;
-                              if (result == null) {
-                                setState(() {
-                                  error = 'could not save video';
-                                  loading = false;
-                                });
+//                              setState(() => loading = true);
+                              bool succeeded = await _sendDataToServer();
+                              if (!succeeded) {
+                                //                              setState(() => loading = false);
+                                // TODO popup message of error saving in server
+                              } else {
+                                String video_id = await _db.addVideo(
+                                    'video_tmp',
+                                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                    widget.uid) as String;
+                                succeeded = await _db.addVideoToUserVideosList(
+                                    widget.uid, video_id);
                               }
+                              if (!succeeded) {
+                                // TODO popup message of error saving in db
+                              }
+                              // if (result == null) {
+                              //   setState(() {
+                              //     error = 'could not save video';
+                              //     loading = false;
+                              //   });
+                              // }
                             }
                           },
                         ),

@@ -94,10 +94,28 @@ class DatabaseService {
 
   //------------ videos collection ------------
 
-  Future updateVideos(String name, String url, int likes) async {
+  Future<bool> addVideoToUserVideosList(String uid, String video_id) async {
+    try {
+      usersCollection.doc(uid).update({
+        'videos': FieldValue.arrayUnion([video_id])
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<String> addVideo(String name, String url, String user_id) async {
+    DocumentReference docRef = await videosCollection
+        .add({'name': name, 'url': url, 'likes': 0, 'user_id': user_id});
+    return docRef.id;
+  }
+
+  Future updateVideos(
+      String name, String url, int likes, String video_id) async {
     return await videosCollection
-        .doc(uid)
-        .set({'name': name, 'url': url, 'likes': likes});
+        .doc(video_id)
+        .set({'name': name, 'url': url, 'likes': likes, 'user_id': uid});
   }
 
   List<Video> _videosListFromSnapshot(QuerySnapshot snapshot) {
@@ -105,7 +123,8 @@ class DatabaseService {
       return Video(
           name: doc.get('name') ?? '',
           url: doc.get('url') ?? '',
-          likes: doc.get('likes') ?? 0);
+          likes: doc.get('likes') ?? 0,
+          user_id: doc.get('user_id') ?? '');
     }).toList();
   }
 
