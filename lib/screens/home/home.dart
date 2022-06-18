@@ -90,7 +90,8 @@ class Home extends StatelessWidget {
             Container(
               height: 600,
               //child: MyVideosList(uid: firebase_auth.currentUser?.uid),
-              child: VideoList(),
+              child: //VideoList(),
+                  Container(),
             ),
           ],
         ),
