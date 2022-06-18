@@ -8,7 +8,9 @@ import 'package:lets_dance/services/storage.dart';
 
 class ChooseBackground extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
-  ChooseBackground({required this.videoPlayerController});
+  final String serverUrl;
+  ChooseBackground(
+      {required this.videoPlayerController, required this.serverUrl});
 
   @override
   _ChooseBackgroundState createState() => _ChooseBackgroundState();
@@ -116,7 +118,7 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                 crossAxisCount: 2,
                 childAspectRatio: (170.0 / 110.0),
                 children: [
-                  for (int i = 0; i < 52; i++)
+                  for (int i = 1; i < 52; i++)
                     BackgroundTile(
                       backgroundPath: 'images/background_images/$i.jpg',
                       onTap: () => selectIndex(i),
@@ -193,6 +195,7 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                   child: Text('Next', style: TextStyle(color: Colors.white)),
                   onPressed: isNextActive
                       ? () {
+                          print('url in choose_background:' + widget.serverUrl);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -201,6 +204,7 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                                             widget.videoPlayerController,
                                         backgroundName:
                                             selectedIndex.toString() + '.jpg',
+                                        serverUrl: widget.serverUrl,
                                       )));
                         }
                       : null),

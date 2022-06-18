@@ -65,7 +65,7 @@ class _VideoWidgetState extends State<VideoWidget> {
       future: _initializeVideoPlayerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return VideoPlayer(_controller);
+          return Container(height: 300, child: VideoPlayer(_controller));
         } else {
           return Center(
             child: CircularProgressIndicator(),
@@ -96,7 +96,7 @@ class VideoList extends StatelessWidget {
 
             return Container(
               width: double.infinity,
-              height: 300.0,
+              height: 600.0,
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(vertical: 50.0),
               child: LayoutBuilder(
@@ -105,9 +105,29 @@ class VideoList extends StatelessWidget {
                     id: '$index',
                     builder:
                         (BuildContext context, bool isInView, Widget? child) {
-                      print(videos[index].url);
-                      return VideoWidget(
-                          play: isInView, url: videos[index].url);
+                      return Container(
+                        height: 500,
+                        child: Column(
+                          children: [
+                            VideoWidget(play: isInView, url: videos[index].url),
+                            // Row(
+                            //   children: [
+                            //     Container(
+                            //       child: Align(
+                            //           alignment: Alignment.centerLeft,
+                            //           child: Text(videos[index].name)),
+                            //     ),
+                            //     SizedBox(width: 250),
+                            //     Container(
+                            //         child: Align(
+                            //             alignment: Alignment.centerRight,
+                            //             child: Text(
+                            //                 videos[index].likes.toString())))
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                      );
                     },
                   );
                 },
@@ -115,13 +135,13 @@ class VideoList extends StatelessWidget {
             );
           },
         ),
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            height: 1.0,
-            color: Colors.redAccent,
-          ),
-        )
+        // Align(
+        //   alignment: Alignment.center,
+        //   child: Container(
+        //     height: 1.0,
+        //     color: Colors.redAccent,
+        //   ),
+        //)
       ],
     );
   }
