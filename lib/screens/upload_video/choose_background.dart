@@ -7,10 +7,15 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
 
 class ChooseBackground extends StatefulWidget {
+  final String uid;
+  final String username;
   final VideoPlayerController videoPlayerController;
   final String serverUrl;
   ChooseBackground(
-      {required this.videoPlayerController, required this.serverUrl});
+      {required this.uid,
+      required this.username,
+      required this.videoPlayerController,
+      required this.serverUrl});
 
   @override
   _ChooseBackgroundState createState() => _ChooseBackgroundState();
@@ -205,6 +210,8 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                                         backgroundName:
                                             selectedIndex.toString() + '.jpg',
                                         serverUrl: widget.serverUrl,
+                                        uid: widget.uid,
+                                        username: widget.username,
                                       )));
                         }
                       : null),

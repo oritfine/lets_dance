@@ -8,15 +8,20 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
 import 'package:http/http.dart' as http;
 
+import '../../services/database.dart';
 import '../../shared/loading.dart';
 
 class ChooseFace extends StatefulWidget {
+  final String uid;
+  final String username;
   late final VideoPlayerController videoPlayerController;
   final String backgroundName;
   final String serverUrl;
 
   ChooseFace(
-      {required this.videoPlayerController,
+      {required this.uid,
+      required this.username,
+      required this.videoPlayerController,
       required this.backgroundName,
       required this.serverUrl});
 
@@ -25,6 +30,7 @@ class ChooseFace extends StatefulWidget {
 }
 
 class _ChooseFaceState extends State<ChooseFace> {
+  final DatabaseService _db = DatabaseService();
   bool loading = false;
   bool isNextActive = false;
   int selectedIndex = -1;
@@ -73,8 +79,10 @@ class _ChooseFaceState extends State<ChooseFace> {
         "POST", Uri.parse('http://172.20.1.109:8080/process'));
     request.fields['emoji'] = facesNames[selectedIndex];
     request.fields['background'] = widget.backgroundName;
-    request.fields['url'] = widget.serverUrl;
-    print('url in choose_face:' + widget.serverUrl);
+    //request.fields['url'] = widget.serverUrl;
+    request.files.add(await http.MultipartFile.fromPath(
+        '${widget.username}_original_tmp',
+        widget.videoPlayerController.dataSource));
     //request.fields['avatar'] = widget.avatar;
     print(request);
     request.send().then((response) {
@@ -221,7 +229,6 @@ class _ChooseFaceState extends State<ChooseFace> {
                           style: TextStyle(color: Colors.white)),
                       onPressed: isNextActive
                           ? () {
-                              _sendDataToServer();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -233,6 +240,7 @@ class _ChooseFaceState extends State<ChooseFace> {
                                             faceName:
                                                 facesNames[selectedIndex] +
                                                     '.png',
+                                            uid: widget.uid,
                                           )));
                             }
                           : null),

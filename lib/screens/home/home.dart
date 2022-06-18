@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/home/userlist.dart';
@@ -38,7 +39,8 @@ class Home extends StatelessWidget {
         drawer: NavigationMenu(
             auth: _auth,
             email: firebase_auth.currentUser?.email,
-            username: firebase_auth.currentUser?.displayName),
+            username: firebase_auth.currentUser?.displayName,
+            uid: firebase_auth.currentUser!.uid),
         backgroundColor: Colors.brown[50],
         appBar: AppBar(
           title: Text('Lets Dance'),
@@ -74,6 +76,13 @@ class Home extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () async {
+                String video_id = await _db.addVideo(
+                    'video',
+                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                    firebase_auth.currentUser!.uid) as String;
+                _db.usersCollection.doc(firebase_auth.currentUser!.uid).update({
+                  'videos': FieldValue.arrayUnion([video_id])
+                });
                 // Map<String, String> videos = {
                 //   'video1': 'url1',
                 //   'video2': 'url2',
