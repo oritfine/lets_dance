@@ -48,6 +48,7 @@ class AuthService {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       User? user = credential.user;
+      user?.updateDisplayName(username);
       // create a new document for the user with the uid in users collection
       await DatabaseService(uid: user!.uid)
           .updateUserData(username, 100 /*, ["path1", "path2", "path3"]*/);

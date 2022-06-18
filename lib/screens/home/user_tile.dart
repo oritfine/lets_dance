@@ -4,7 +4,7 @@ import 'package:lets_dance/models/user.dart';
 class UserTile extends StatelessWidget {
   //const UserTile({Key? key}) : super(key: key);
 
-  final User user;
+  final UserModel user;
   UserTile({required this.user});
 
   @override

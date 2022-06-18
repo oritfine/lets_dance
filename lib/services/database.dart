@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/my_user.dart';
 import '../models/user.dart';
+import '../models/video.dart';
+import '../models/videos.dart';
 
 class DatabaseService {
   final String? uid;
@@ -9,6 +10,10 @@ class DatabaseService {
   // collection reference
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection("users");
+  final CollectionReference userVideosCollection =
+      FirebaseFirestore.instance.collection("user_videos");
+  final CollectionReference videosCollection =
+      FirebaseFirestore.instance.collection("videos");
 
   // in use for sign up and updating data
   Future updateUserData(
@@ -19,11 +24,11 @@ class DatabaseService {
   }
 
   // User list from snapshot
-  List<User> _userListFromSnapshot(QuerySnapshot snapshot) {
+  List<UserModel> _userListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       //User(name: doc.get('name') ?? '', number: doc.get('num') ?? 0);
       //print(u);
-      return User(
+      return UserModel(
           uid: uid.toString(),
           name: doc.get('name') ?? '',
           num: doc.get('num') ?? 0);
@@ -39,15 +44,15 @@ class DatabaseService {
   //       num: snapshot.get('num'),
   //       videos_path: snapshot.get('videos_path'));
   // }
-  User _userDataFromSnapshot(DocumentSnapshot snapshot) {
-    return User(
+  UserModel _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return UserModel(
         uid: uid.toString(),
         name: snapshot.get('name'),
         num: snapshot.get('num'));
   }
 
   // get users doc stream
-  Stream<List<User>> get users {
+  Stream<List<UserModel>> get users {
     return usersCollection.snapshots().map(_userListFromSnapshot);
   }
 
@@ -57,7 +62,54 @@ class DatabaseService {
   // }
 
   // get user document from id
-  Stream<User> get user {
+  Stream<UserModel> get user {
     return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
+  }
+
+  // ------------ user video collection ------------
+
+  Future updateUserVideosData(Map<String, String> videos) async {
+    return await userVideosCollection.doc(uid).set({
+      'videos': videos,
+    });
+  }
+
+  // get user document from id
+  Stream<UserVideos> get userVideos {
+    return userVideosCollection
+        .doc(uid)
+        .snapshots()
+        .map(_userVideosFromSnapshot);
+  }
+
+  UserVideos _userVideosFromSnapshot(DocumentSnapshot snapshot) {
+    return UserVideos(videos: snapshot.get('videos'));
+  }
+
+  List<UserVideos> _userVideosListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return UserVideos(videos: doc.get('videos') ?? {});
+    }).toList();
+  }
+
+  //------------ videos collection ------------
+
+  Future updateVideos(String name, String url, int likes) async {
+    return await videosCollection
+        .doc(uid)
+        .set({'name': name, 'url': url, 'likes': likes});
+  }
+
+  List<Video> _videosListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return Video(
+          name: doc.get('name') ?? '',
+          url: doc.get('url') ?? '',
+          likes: doc.get('likes') ?? 0);
+    }).toList();
+  }
+
+  Stream<List<Video>> get videos {
+    return videosCollection.snapshots().map(_videosListFromSnapshot);
   }
 }
