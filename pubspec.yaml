@@ -168,6 +168,10 @@ flutter:
      - images/faces/Tinkerbell.png
      - images/faces/Unicorn-Poop.png
      - images/faces/Winking-Girl.png
+     - images/avatars/green.png
+     - images/avatars/green_purple.png
+     - images/avatars/pink_light_blue_yellow.png
+     - images/avatars/purple_pink_yellow.png
      - videos/final_hadar2.mp4
      - google_fonts/josefin_sans/
      - google_fonts/Passion_One/

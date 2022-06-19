@@ -11,12 +11,14 @@ import '../../services/database.dart';
 class SaveVideo extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
   final String backgroundName;
+  final String avatarName;
   final String faceName;
   final String uid;
 
   SaveVideo(
       {required this.videoPlayerController,
       required this.backgroundName,
+      required this.avatarName,
       required this.faceName,
       required this.uid});
 

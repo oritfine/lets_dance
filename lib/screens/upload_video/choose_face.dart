@@ -16,6 +16,7 @@ class ChooseFace extends StatefulWidget {
   final String username;
   late final VideoPlayerController videoPlayerController;
   final String backgroundName;
+  final String avatarName;
   final String serverUrl;
 
   ChooseFace(
@@ -23,6 +24,7 @@ class ChooseFace extends StatefulWidget {
       required this.username,
       required this.videoPlayerController,
       required this.backgroundName,
+      required this.avatarName,
       required this.serverUrl});
 
   @override
@@ -237,6 +239,7 @@ class _ChooseFaceState extends State<ChooseFace> {
                                                 widget.videoPlayerController,
                                             backgroundName:
                                                 widget.backgroundName,
+                                            avatarName: widget.avatarName,
                                             faceName:
                                                 facesNames[selectedIndex] +
                                                     '.png',

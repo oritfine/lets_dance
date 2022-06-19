@@ -22,7 +22,7 @@ class _BrowseVideoState extends State<BrowseVideo> {
   File? _video;
   final picker = ImagePicker();
   bool isNextActive = false;
-  late final String serverUrl;
+  String serverUrl = '';
 
   // String get url {
   //   return serverUrl;

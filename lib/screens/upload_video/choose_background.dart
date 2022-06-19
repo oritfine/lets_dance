@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/upload_video/background_tile.dart';
+import 'package:lets_dance/screens/upload_video/choose_avatar.dart';
 import 'package:lets_dance/screens/upload_video/choose_face.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -204,12 +205,11 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChooseFace(
+                                  builder: (context) => ChooseAvatar(
                                         videoPlayerController:
                                             widget.videoPlayerController,
                                         backgroundName:
                                             selectedIndex.toString() + '.jpg',
-                                        serverUrl: widget.serverUrl,
                                         uid: widget.uid,
                                         username: widget.username,
                                       )));
