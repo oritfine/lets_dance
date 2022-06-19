@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'choose_background.dart';
 import 'dart:convert';
+import '../../shared/designs.dart';
 
 class BrowseVideo extends StatefulWidget {
   //const BrowseVideo({Key? key}) : super(key: key);
@@ -89,46 +90,20 @@ class _BrowseVideoState extends State<BrowseVideo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.brown[50],
-        appBar: AppBar(
-          backgroundColor: Colors.brown[400],
-          title: Text('Upload New Video'),
-        ),
+        backgroundColor: background_color,
+        appBar: AppBarDesign(text: 'Upload New Video'),
         body: Column(
           children: [
+            const SizedBox(height: 20.0),
             _video == null
-                ? Padding(
-                    padding:
-                        const EdgeInsets.only(left: 100, top: 30, right: 100),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 20.0),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.pink[400]),
-                          child: Text('Browse',
-                              style: TextStyle(color: Colors.white)),
-                          onPressed: () {
-                            _pickVideo();
-                          },
-                        ),
-                        const SizedBox(height: 40),
-                        Icon(Icons.photo, size: 200),
-                        const SizedBox(height: 250),
-                      ],
-                    ),
-                  )
-                : Column(
+                ? Column(
                     children: [
-                      const SizedBox(height: 20.0),
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 160, top: 30, right: 150),
+                        padding:
+                            EdgeInsets.only(left: 150, top: 20, right: 150),
                         child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.pink[400]),
-                          child: Text('Browse',
-                              style: TextStyle(color: Colors.white)),
+                          style: button_style,
+                          child: TextDesign(text: 'Browse', size: 18),
                           onPressed: () {
                             _pickVideo();
                           },
@@ -136,8 +111,39 @@ class _BrowseVideoState extends State<BrowseVideo> {
                       ),
                       const SizedBox(height: 40),
                       Container(
-                        height: 400,
-                        width: 240,
+                        height: MediaQuery.of(context).size.height * 0.55,
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 1),
+                            Icon(
+                              Icons.add_a_photo,
+                              size: 160,
+                              color: Colors.grey[300],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 50),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 150, top: 20, right: 150),
+                        child: ElevatedButton(
+                          style: button_style,
+                          child: TextDesign(text: 'Browse', size: 18),
+                          onPressed: () {
+                            _pickVideo();
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.55,
+                        width: MediaQuery.of(context).size.width * 0.65,
                         child: _videoPlayerController.value.isInitialized
                             ? AspectRatio(
                                 aspectRatio:
@@ -186,8 +192,8 @@ class _BrowseVideoState extends State<BrowseVideo> {
             Padding(
               padding: EdgeInsets.only(left: 250),
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
-                  child: Text('Next', style: TextStyle(color: Colors.white)),
+                  style: isNextActive ? button_style : disabled_next_style,
+                  child: TextDesign(text: 'Next', size: 18),
                   onPressed: isNextActive
                       ? () async {
                           _uploadFileToServer(_video!);
@@ -203,7 +209,7 @@ class _BrowseVideoState extends State<BrowseVideo> {
                                         username: widget.username,
                                       )));
                         }
-                      : null),
+                      : () {}),
             ),
           ],
         ));

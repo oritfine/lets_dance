@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 import '../../services/database.dart';
 import '../../shared/loading.dart';
+import '../../shared/designs.dart';
 
 class ChooseFace extends StatefulWidget {
   final String uid;
@@ -39,6 +40,7 @@ class _ChooseFaceState extends State<ChooseFace> {
   final Storage storage = Storage();
 
   List<String> facesNames = [
+    'Default',
     'Angle',
     'Bazz',
     'Beast',
@@ -122,15 +124,12 @@ class _ChooseFaceState extends State<ChooseFace> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[50],
-      appBar: AppBar(
-        title: const Text('Choose Emoji'),
-        centerTitle: true,
-      ),
+      backgroundColor: background_color,
+      appBar: AppBarDesign(text: 'Choose Emoji'),
       body: loading
           ? Loading()
           : Padding(
-              padding: EdgeInsets.only(left: 20, top: 30, right: 20),
+              padding: EdgeInsets.only(left: 30, top: 20, right: 30),
               child: Column(
                 children: [
                   // check that the video is passed:
@@ -173,9 +172,9 @@ class _ChooseFaceState extends State<ChooseFace> {
                   //       )
                   //     : Container(),
                   //
-                  Text('Choose an emoji for your avatar:',
-                      style: TextStyle(color: Colors.black, fontSize: 18)),
-                  SizedBox(height: 20),
+                  TextDesign(
+                      text: 'Choose an emoji for your avatar:', size: 18),
+                  SizedBox(height: 18),
                   // Container(
                   //   height: 500,
                   //   width: 400,
@@ -201,8 +200,8 @@ class _ChooseFaceState extends State<ChooseFace> {
                   //   ),
                   // ),
                   Container(
-                    width: 400,
-                    height: 500,
+                    height: MediaQuery.of(context).size.height * 0.69,
+                    width: MediaQuery.of(context).size.width * 0.85,
                     child: GridView.count(
                       primary: false,
                       //padding: const EdgeInsets.all(400),
@@ -222,13 +221,12 @@ class _ChooseFaceState extends State<ChooseFace> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 25,
                   ),
                   ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(primary: Colors.pink[400]),
-                      child: Text('Generate your Lets-Dance video!',
-                          style: TextStyle(color: Colors.white)),
+                      style: isNextActive ? button_style : disabled_next_style,
+                      child: TextDesign(
+                          text: 'Generate your Lets-Dance video!', size: 18),
                       onPressed: isNextActive
                           ? () {
                               Navigator.push(
@@ -240,13 +238,14 @@ class _ChooseFaceState extends State<ChooseFace> {
                                             backgroundName:
                                                 widget.backgroundName,
                                             avatarName: widget.avatarName,
-                                            faceName:
-                                                facesNames[selectedIndex] +
+                                            faceName: selectedIndex == 0
+                                                ? 'None'
+                                                : facesNames[selectedIndex] +
                                                     '.png',
                                             uid: widget.uid,
                                           )));
                             }
-                          : null),
+                          : () {}),
                 ],
               ),
             ),

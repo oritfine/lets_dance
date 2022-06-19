@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../shared/designs.dart';
 
 class AvatarTile extends StatefulWidget {
   final String avatarPath;
@@ -41,28 +41,14 @@ class _AvatarTileState extends State<AvatarTile> {
         onTap: widget.onTap,
         child: widget.selected == true
             ? Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0),
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 5,
-                  ),
-                ),
+                decoration: BorderTileDesign,
                 child: Container(
                   padding: const EdgeInsets.only(left: 5, right: 5),
                   child: Column(
                     children: [
                       //Flexible(
                       //child: Text(
-                      Text(
-                        widget.avatarName,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.josefinSans(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            color: Colors.black),
-                      ),
+                      TextDesign(text: widget.avatarName, size: 15),
                       SizedBox(height: 7),
                       // ),
                       Image.asset(
@@ -83,15 +69,7 @@ class _AvatarTileState extends State<AvatarTile> {
                     children: [
                       //Flexible(
                       // child: Text(
-                      Text(
-                        widget.avatarName,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.josefinSans(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            color: Colors.black),
-                      ),
+                      TextDesign(text: widget.avatarName, size: 15),
                       //),
                       SizedBox(height: 7),
                       Image.asset(

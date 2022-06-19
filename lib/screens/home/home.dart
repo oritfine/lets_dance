@@ -10,6 +10,7 @@ import '../../feed.dart';
 import '../../models/user.dart';
 import '../../models/video.dart';
 import '../../models/videos.dart';
+import '../../shared/designs.dart';
 import '../videos_list.dart';
 
 class Home extends StatelessWidget {
@@ -41,10 +42,13 @@ class Home extends StatelessWidget {
             email: firebase_auth.currentUser?.email,
             username: firebase_auth.currentUser?.displayName,
             uid: firebase_auth.currentUser!.uid),
-        backgroundColor: Colors.brown[50],
+        backgroundColor: background_color,
         appBar: AppBar(
-          title: Text('Lets Dance'),
-          backgroundColor: Colors.brown[400],
+          title: TextDesign(text: 'Lets Dance', size: 24),
+          centerTitle: true,
+          //backgroundColor: Color.fromRGBO(143, 78, 208, 0.9),
+          //backgroundColor: Color.fromRGBO(141, 70, 234, 1.0),
+          backgroundColor: appbar_color,
           elevation: 0.0,
           actions: <Widget>[
             // TextButton.icon(
@@ -70,10 +74,12 @@ class Home extends StatelessWidget {
         body: Column(
           children: [
             ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
+              //style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(87, 72, 231, 1.0)),
               child: Text(
                 'Upload New Video',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.grey[300]),
               ),
               onPressed: () async {
                 String video_id = await _db.addVideo(

@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/upload_video/background_tile.dart';
 import 'package:lets_dance/screens/upload_video/choose_avatar.dart';
-import 'package:lets_dance/screens/upload_video/choose_face.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
+import '../../shared/designs.dart';
 
 class ChooseBackground extends StatefulWidget {
   final String uid;
@@ -37,13 +37,10 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[50],
-      appBar: AppBar(
-        title: const Text('Choose Background'),
-        centerTitle: true,
-      ),
+      backgroundColor: background_color,
+      appBar: AppBarDesign(text: 'Choose Background'),
       body: Padding(
-        padding: EdgeInsets.only(left: 20, top: 30, right: 20),
+        padding: EdgeInsets.only(left: 30, top: 20, right: 30),
         child: Column(
           children: [
             // check that the video is passed:
@@ -86,9 +83,8 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
             //       )
             //     : Container(),
             //
-            Text('Choose a background for your video:',
-                style: TextStyle(color: Colors.black, fontSize: 18)),
-            SizedBox(height: 20),
+            TextDesign(text: 'Choose a background for your video:', size: 18),
+            SizedBox(height: 18),
             // Container(
             //   height: 500,
             //   width: 400,
@@ -114,8 +110,8 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
             //   ),
             // ),
             Container(
-              width: 400,
-              height: 500,
+              height: MediaQuery.of(context).size.height * 0.69,
+              width: MediaQuery.of(context).size.width * 0.85,
               child: GridView.count(
                 primary: false,
                 //padding: const EdgeInsets.all(400),
@@ -192,13 +188,13 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                   return Container();
                 }),*/
             SizedBox(
-              height: 20,
+              height: 25,
             ),
             Padding(
               padding: EdgeInsets.only(left: 250),
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
-                  child: Text('Next', style: TextStyle(color: Colors.white)),
+                  style: isNextActive ? button_style : disabled_next_style,
+                  child: TextDesign(text: 'Next', size: 18),
                   onPressed: isNextActive
                       ? () {
                           print('url in choose_background:' + widget.serverUrl);
@@ -214,7 +210,7 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                                         username: widget.username,
                                       )));
                         }
-                      : null),
+                      : () {}),
             ),
           ],
         ),

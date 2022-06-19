@@ -5,6 +5,7 @@ import 'package:lets_dance/screens/upload_video/choose_face.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
+import '../../shared/designs.dart';
 
 class ChooseAvatar extends StatefulWidget {
   final String uid;
@@ -29,10 +30,10 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
   final Storage storage = Storage();
 
   List<String> avatarNames = [
-    'green',
-    'pink_light_blue_yellow',
-    'green_purple',
-    'purple_pink_yellow'
+    'Green',
+    'Pink-Lightblue-Yellow',
+    'Green-Pink-Red',
+    'Purple-Blue'
   ];
 
   void selectIndex(int index) {
@@ -45,21 +46,17 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[50],
-      appBar: AppBar(
-        title: const Text('Choose Avatar'),
-        centerTitle: true,
-      ),
+      backgroundColor: background_color,
+      appBar: AppBarDesign(text: 'Choose Avatar'),
       body: Padding(
-        padding: EdgeInsets.only(left: 20, top: 30, right: 20),
+        padding: EdgeInsets.only(left: 30, top: 20, right: 30),
         child: Column(
           children: [
-            Text('Choose an avatar for your video:',
-                style: TextStyle(color: Colors.black, fontSize: 18)),
-            SizedBox(height: 20),
+            TextDesign(text: 'Choose an avatar for your video:', size: 18),
+            SizedBox(height: 18),
             Container(
-              width: 400,
-              height: 500,
+              height: MediaQuery.of(context).size.height * 0.69,
+              width: MediaQuery.of(context).size.width * 0.85,
               child: GridView.count(
                 primary: false,
                 //padding: const EdgeInsets.all(400),
@@ -79,13 +76,13 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 25,
             ),
             Padding(
               padding: EdgeInsets.only(left: 250),
               child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
-                  child: Text('Next', style: TextStyle(color: Colors.white)),
+                  style: isNextActive ? button_style : disabled_next_style,
+                  child: TextDesign(text: 'Next', size: 18),
                   onPressed: isNextActive
                       ? () {
                           Navigator.push(
@@ -103,7 +100,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                                         username: widget.username,
                                       )));
                         }
-                      : null),
+                      : () {}),
             ),
           ],
         ),

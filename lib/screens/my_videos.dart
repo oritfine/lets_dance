@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../shared/designs.dart';
 
 class MyVideos extends StatelessWidget {
   const MyVideos({Key? key}) : super(key: key);
@@ -6,11 +7,8 @@ class MyVideos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown[50],
-      appBar: AppBar(
-        title: const Text('My Videos'),
-        centerTitle: true,
-      ),
+      backgroundColor: background_color,
+      appBar: AppBarDesign(text: 'My Videos'),
       body: Padding(
         padding: EdgeInsets.only(left: 20, top: 30, right: 20),
         child: Column(

@@ -1,12 +1,14 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lets_dance/shared/constants.dart';
 import 'package:video_player/video_player.dart';
 import 'package:lets_dance/shared/loading.dart';
 import 'package:http/http.dart' as http;
 
 import '../../services/database.dart';
+import '../../shared/designs.dart';
+import '../home/home.dart';
 
 class SaveVideo extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
@@ -63,10 +65,8 @@ class _SaveVideoState extends State<SaveVideo> {
     return loading
         ? Loading()
         : Scaffold(
-            appBar: AppBar(
-              title: const Text('Save Video'),
-              centerTitle: true,
-            ),
+            backgroundColor: background_color,
+            appBar: AppBarDesign(text: 'Save Video'),
             body: Padding(
               padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
               child: Column(
@@ -119,7 +119,7 @@ class _SaveVideoState extends State<SaveVideo> {
                       children: [
                         TextFormField(
                             decoration:
-                                textInputDecoration.copyWith(hintText: 'Name'),
+                                textFormDecoration.copyWith(hintText: 'Name'),
                             validator: (val) =>
                                 val!.isEmpty ? 'Enter video name' : null,
                             onChanged: (val) {
@@ -127,17 +127,18 @@ class _SaveVideoState extends State<SaveVideo> {
                             }),
                         SizedBox(height: 20.0),
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.pink[400]),
-                          child: Text('Save Video',
-                              style: TextStyle(color: Colors.white)),
+                          style: button_style,
+                          child: TextDesign(text: 'Save Video', size: 18),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
 //                              setState(() => loading = true);
                               bool succeeded = await _sendDataToServer();
                               if (!succeeded) {
                                 //                              setState(() => loading = false);
+                                error =
+                                    "Error saving your video. Please try again";
                                 // TODO popup message of error saving in server
+                                return;
                               } else {
                                 String video_id = await _db.addVideo(
                                     'video_tmp',
@@ -147,6 +148,8 @@ class _SaveVideoState extends State<SaveVideo> {
                                     widget.uid, video_id);
                               }
                               if (!succeeded) {
+                                error =
+                                    "Error saving your video. Please try again";
                                 // TODO popup message of error saving in db
                               }
                               // if (result == null) {
@@ -156,6 +159,18 @@ class _SaveVideoState extends State<SaveVideo> {
                               //   });
                               // }
                             }
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          style: disabled_next_style,
+                          child: TextDesign(text: 'Cancel', size: 18),
+                          onPressed: () {
+                            print('cancel');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()));
                           },
                         ),
                         error == ''

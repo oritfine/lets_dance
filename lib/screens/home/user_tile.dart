@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lets_dance/models/user.dart';
+import '../../shared/designs.dart';
 
 class UserTile extends StatelessWidget {
   //const UserTile({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class UserTile extends StatelessWidget {
             leading: CircleAvatar(
               radius: 25.0,
               backgroundColor:
-                  Colors.brown[100] /*[user.num]*/, //num=darkness of color
+                  background_color /*[user.num]*/, //num=darkness of color
             ),
             title: Text(user.name),
             subtitle: Text('this is a user'),
