@@ -1,17 +1,28 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lets_dance/shared/constants.dart';
 import 'package:video_player/video_player.dart';
 import 'package:lets_dance/shared/loading.dart';
+import 'package:http/http.dart' as http;
+
+import '../../services/database.dart';
+import '../../shared/designs.dart';
+import '../home/home.dart';
 
 class SaveVideo extends StatefulWidget {
   final VideoPlayerController videoPlayerController;
   final String backgroundName;
+  final String avatarName;
   final String faceName;
+  final String uid;
 
   SaveVideo(
       {required this.videoPlayerController,
       required this.backgroundName,
-      required this.faceName});
+      required this.avatarName,
+      required this.faceName,
+      required this.uid});
 
   @override
   _SaveVideoState createState() => _SaveVideoState();
@@ -22,16 +33,40 @@ class _SaveVideoState extends State<SaveVideo> {
   String error = '';
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
+  final DatabaseService _db = DatabaseService();
+
+  Future<bool> _sendDataToServer() async {
+    var request = http.MultipartRequest(
+        "POST", Uri.parse('http://172.20.1.109:8080/saveName'));
+    request.fields['video_name'] = videoName;
+    print(request);
+    request.send().then((response) {
+      http.Response.fromStream(response).then((onValue) async {
+        //TODO return response status
+        // try {
+        //   response.stream.listen((newBytes) {
+        //     bytes.addAll(newBytes);
+        //   });
+        //   Future<File> video = File('/video.mp4').writeAsBytes(bytes);
+        //   print(response);
+        //
+        //   print('hi');
+        //   // get your response here...
+        // } catch (e) {
+        //   print(e);
+        //   //Todo show message - upload your video again
+      });
+    });
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
     return loading
         ? Loading()
         : Scaffold(
-            appBar: AppBar(
-              title: const Text('Save Video'),
-              centerTitle: true,
-            ),
+            backgroundColor: background_color,
+            appBar: AppBarDesign(text: 'Save Video'),
             body: Padding(
               padding: const EdgeInsets.only(left: 20, top: 30, right: 20),
               child: Column(
@@ -84,7 +119,7 @@ class _SaveVideoState extends State<SaveVideo> {
                       children: [
                         TextFormField(
                             decoration:
-                                textInputDecoration.copyWith(hintText: 'Name'),
+                                textFormDecoration.copyWith(hintText: 'Name'),
                             validator: (val) =>
                                 val!.isEmpty ? 'Enter video name' : null,
                             onChanged: (val) {
@@ -92,23 +127,50 @@ class _SaveVideoState extends State<SaveVideo> {
                             }),
                         SizedBox(height: 20.0),
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.pink[400]),
-                          child: Text('Save Video',
-                              style: TextStyle(color: Colors.white)),
+                          style: button_style,
+                          child: TextDesign(text: 'Save Video', size: 18),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              setState(() => loading = true);
-                              // dynamic result = await _auth
-                              //     .signInWithEmailAndPassword(email, password);
-                              dynamic result = 1;
-                              if (result == null) {
-                                setState(() {
-                                  error = 'could not save video';
-                                  loading = false;
-                                });
+//                              setState(() => loading = true);
+                              bool succeeded = await _sendDataToServer();
+                              if (!succeeded) {
+                                //                              setState(() => loading = false);
+                                error =
+                                    "Error saving your video. Please try again";
+                                // TODO popup message of error saving in server
+                                return;
+                              } else {
+                                String video_id = await _db.addVideo(
+                                    'video_tmp',
+                                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                    widget.uid) as String;
+                                succeeded = await _db.addVideoToUserVideosList(
+                                    widget.uid, video_id);
                               }
+                              if (!succeeded) {
+                                error =
+                                    "Error saving your video. Please try again";
+                                // TODO popup message of error saving in db
+                              }
+                              // if (result == null) {
+                              //   setState(() {
+                              //     error = 'could not save video';
+                              //     loading = false;
+                              //   });
+                              // }
                             }
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          style: disabled_next_style,
+                          child: TextDesign(text: 'Cancel', size: 18),
+                          onPressed: () {
+                            print('cancel');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()));
                           },
                         ),
                         error == ''

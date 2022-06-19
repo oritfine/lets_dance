@@ -7,19 +7,20 @@ import '../../screens/upload_video/browse_video.dart';
 import '../../services/auth.dart';
 
 class NavigationMenu extends StatelessWidget {
-  NavigationMenu({
-    Key? key,
-    required this.auth,
-    required this.email,
-    required this.username,
-  });
+  NavigationMenu(
+      {Key? key,
+      required this.auth,
+      required this.email,
+      required this.username,
+      required this.uid});
   final AuthService auth;
   final String? email;
   final String? username;
+  final String uid;
 
   // Navigate by index which was sent to function
   void onItemPressed(BuildContext context, {required int index}) {
-    Navigator.pop(context);
+    //Navigator.pop(context);
     switch (index) {
       case 0:
         Navigator.push(
@@ -29,7 +30,9 @@ class NavigationMenu extends StatelessWidget {
         Navigator.push(
             //context, MaterialPageRoute(builder: (context) => BrowseVideo()));
             context,
-            MaterialPageRoute(builder: (context) => BrowseVideo()));
+            MaterialPageRoute(
+                builder: (context) =>
+                    BrowseVideo(uid: uid, username: username!)));
         break;
       case 2:
         break;

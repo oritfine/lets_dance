@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/home/userlist.dart';
@@ -9,6 +10,7 @@ import '../../feed.dart';
 import '../../models/user.dart';
 import '../../models/video.dart';
 import '../../models/videos.dart';
+import '../../shared/designs.dart';
 import '../videos_list.dart';
 
 class Home extends StatelessWidget {
@@ -38,11 +40,15 @@ class Home extends StatelessWidget {
         drawer: NavigationMenu(
             auth: _auth,
             email: firebase_auth.currentUser?.email,
-            username: firebase_auth.currentUser?.displayName),
-        backgroundColor: Colors.brown[50],
+            username: firebase_auth.currentUser?.displayName,
+            uid: firebase_auth.currentUser!.uid),
+        backgroundColor: background_color,
         appBar: AppBar(
-          title: Text('Lets Dance'),
-          backgroundColor: Colors.brown[400],
+          title: TextDesign(text: 'Lets Dance', size: 24),
+          centerTitle: true,
+          //backgroundColor: Color.fromRGBO(143, 78, 208, 0.9),
+          //backgroundColor: Color.fromRGBO(141, 70, 234, 1.0),
+          backgroundColor: appbar_color,
           elevation: 0.0,
           actions: <Widget>[
             // TextButton.icon(
@@ -68,12 +74,21 @@ class Home extends StatelessWidget {
         body: Column(
           children: [
             ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
+              //style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(87, 72, 231, 1.0)),
               child: Text(
                 'Upload New Video',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.grey[300]),
               ),
               onPressed: () async {
+                String video_id = await _db.addVideo(
+                    'video',
+                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                    firebase_auth.currentUser!.uid) as String;
+                _db.usersCollection.doc(firebase_auth.currentUser!.uid).update({
+                  'videos': FieldValue.arrayUnion([video_id])
+                });
                 // Map<String, String> videos = {
                 //   'video1': 'url1',
                 //   'video2': 'url2',
@@ -90,7 +105,8 @@ class Home extends StatelessWidget {
             Container(
               height: 600,
               //child: MyVideosList(uid: firebase_auth.currentUser?.uid),
-              child: VideoList(),
+              child: //VideoList(),
+                  Container(),
             ),
           ],
         ),

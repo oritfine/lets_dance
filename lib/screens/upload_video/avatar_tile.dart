@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import '../../shared/designs.dart';
 
-class FaceTile extends StatefulWidget {
-  final String facePath;
+class AvatarTile extends StatefulWidget {
+  final String avatarPath;
   final VoidCallback onTap;
   final bool selected;
-  final String faceName;
+  final String avatarName;
 
-  FaceTile(
-      {required this.facePath,
+  AvatarTile(
+      {required this.avatarPath,
       required this.onTap,
       required this.selected,
-      required this.faceName});
+      required this.avatarName});
   @override
-  _FaceTileState createState() => _FaceTileState();
+  _AvatarTileState createState() => _AvatarTileState();
 }
 
-class _FaceTileState extends State<FaceTile> {
+class _AvatarTileState extends State<AvatarTile> {
 //   @override
 //   Widget build(BuildContext context) {
 //     return Padding(
@@ -48,11 +48,11 @@ class _FaceTileState extends State<FaceTile> {
                     children: [
                       //Flexible(
                       //child: Text(
-                      TextDesign(text: widget.faceName, size: 15),
+                      TextDesign(text: widget.avatarName, size: 15),
                       SizedBox(height: 7),
                       // ),
                       Image.asset(
-                        widget.facePath,
+                        widget.avatarPath,
                         fit: BoxFit.contain,
                         alignment: Alignment.center,
                       ),
@@ -69,11 +69,11 @@ class _FaceTileState extends State<FaceTile> {
                     children: [
                       //Flexible(
                       // child: Text(
-                      TextDesign(text: widget.faceName, size: 15),
+                      TextDesign(text: widget.avatarName, size: 15),
                       //),
                       SizedBox(height: 7),
                       Image.asset(
-                        widget.facePath,
+                        widget.avatarPath,
                         fit: BoxFit.contain,
                         alignment: Alignment.center,
                       ),

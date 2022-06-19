@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lets_dance/services/auth.dart';
-import 'package:lets_dance/shared/constants.dart';
 import 'package:lets_dance/shared/loading.dart';
+import '../../shared/designs.dart';
 
 class SignIn extends StatefulWidget {
   //const ({Key? key}) : super(key: key);
@@ -28,24 +28,8 @@ class _SignInState extends State<SignIn> {
     return loading
         ? Loading()
         : Scaffold(
-            backgroundColor: Colors.brown[100],
-            appBar: AppBar(
-              backgroundColor: Colors.brown[400],
-              elevation: 0.0,
-              title: Text('Sign in to Lets Dance'),
-              actions: <Widget>[
-                TextButton.icon(
-                    icon: Icon(
-                      Icons.person,
-                      color: Colors.grey[900],
-                    ),
-                    onPressed: () {
-                      widget.toggleView();
-                    },
-                    label: Text('Register',
-                        style: TextStyle(color: Colors.grey[900])))
-              ],
-            ),
+            backgroundColor: background_color,
+            appBar: AppBarDesign(text: 'Sign in to Lets Dance'),
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
               child: Form(
@@ -55,7 +39,7 @@ class _SignInState extends State<SignIn> {
                     SizedBox(height: 20.0),
                     TextFormField(
                         decoration:
-                            textInputDecoration.copyWith(hintText: 'Email'),
+                            textFormDecoration.copyWith(hintText: 'Email'),
                         validator: (val) =>
                             val!.isEmpty ? 'Enter an email' : null,
                         onChanged: (val) {
@@ -64,7 +48,7 @@ class _SignInState extends State<SignIn> {
                     SizedBox(height: 20.0),
                     TextFormField(
                         decoration:
-                            textInputDecoration.copyWith(hintText: 'Password'),
+                            textFormDecoration.copyWith(hintText: 'Password'),
                         obscureText: true,
                         validator: (val) => val!.length < 6
                             ? 'Enter a password 6+ chars long'
@@ -74,12 +58,8 @@ class _SignInState extends State<SignIn> {
                         }),
                     SizedBox(height: 20.0),
                     ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(primary: Colors.pink[400]),
-                      child: Text(
-                        'Sign In',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      style: button_style,
+                      child: TextDesign(text: 'Sign In', size: 18),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           setState(() => loading = true);
@@ -98,6 +78,15 @@ class _SignInState extends State<SignIn> {
                       },
                     ),
                     SizedBox(height: 12.0),
+                    TextButton.icon(
+                        icon: Icon(
+                          Icons.person,
+                          color: text_color,
+                        ),
+                        onPressed: () {
+                          widget.toggleView();
+                        },
+                        label: TextDesign(text: 'Register', size: 16)),
                     Text(
                       error,
                       style: TextStyle(color: Colors.red, fontSize: 14.0),
