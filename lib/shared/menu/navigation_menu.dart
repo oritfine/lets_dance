@@ -20,7 +20,7 @@ class NavigationMenu extends StatelessWidget {
 
   // Navigate by index which was sent to function
   void onItemPressed(BuildContext context, {required int index}) {
-    Navigator.pop(context);
+    //Navigator.pop(context);
     switch (index) {
       case 0:
         Navigator.push(

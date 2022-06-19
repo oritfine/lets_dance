@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lets_dance/shared/designs.dart';
 
 class Loading extends StatelessWidget {
   //const Loading({Key? key}) : super(key: key);
@@ -7,10 +8,10 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.brown[100],
+      color: background_color,
       child: Center(
         child: SpinKitCircle(
-          color: Colors.pink[400],
+          color: text_color,
           size: 50.0,
         ),
       ),

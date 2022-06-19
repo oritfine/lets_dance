@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../shared/designs.dart';
+
 class BackgroundTile extends StatefulWidget {
   final String backgroundPath;
   final VoidCallback onTap;
@@ -40,13 +42,7 @@ class _BackgroundTileState extends State<BackgroundTile> {
         onTap: widget.onTap,
         child: widget.selected == true
             ? Container(
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0),
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 5,
-                  ),
-                ),
+                decoration: BorderTileDesign,
                 child: Container(
                   padding: const EdgeInsets.only(left: 5, right: 5),
                   child: Image.asset(
