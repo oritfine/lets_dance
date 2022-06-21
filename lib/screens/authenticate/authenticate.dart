@@ -3,7 +3,6 @@ import 'package:lets_dance/screens/authenticate/register.dart';
 import 'package:lets_dance/screens/authenticate/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
-  //const Authenticate({Key? key}) : super(key: key);
 
   @override
   _AuthenticateState createState() => _AuthenticateState();

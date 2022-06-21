@@ -66,6 +66,12 @@ class DatabaseService {
     return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
   }
 
+  // Future<List<Object?>> getUsersData() async {
+  //   QuerySnapshot querySnapshot = await usersCollection.get();
+  //   final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+  //   return data;
+  // }
+
   // ------------ user video collection ------------
 
   Future updateUserVideosData(Map<String, String> videos) async {
@@ -94,28 +100,39 @@ class DatabaseService {
 
   //------------ videos collection ------------
 
-  Future<bool> addVideoToUserVideosList(String uid, String video_id) async {
-    try {
-      usersCollection.doc(uid).update({
-        'videos': FieldValue.arrayUnion([video_id])
-      });
-      return true;
-    } catch (e) {
-      return false;
-    }
+  Future<void> addLike(String uid_liker, String video_id) async {
+    videosCollection.doc(video_id).update({
+      'likers': FieldValue.arrayUnion([uid_liker]),
+      'likes': FieldValue.increment(1)
+    });
+  }
+
+  Future<void> addVideoToUserVideosList(String uid, String video_id) async {
+    usersCollection.doc(uid).update({
+      'videos': FieldValue.arrayUnion([video_id])
+    });
   }
 
   Future<String> addVideo(String name, String url, String user_id) async {
-    DocumentReference docRef = await videosCollection
-        .add({'name': name, 'url': url, 'likes': 0, 'user_id': user_id});
+    DocumentReference docRef = await videosCollection.add({
+      'name': name,
+      'url': url,
+      'likes': 0,
+      'user_id': user_id,
+      'likers': []
+    });
     return docRef.id;
   }
 
   Future updateVideos(
       String name, String url, int likes, String video_id) async {
-    return await videosCollection
-        .doc(video_id)
-        .set({'name': name, 'url': url, 'likes': likes, 'user_id': uid});
+    return await videosCollection.doc(video_id).set({
+      'name': name,
+      'url': url,
+      'likes': likes,
+      'user_id': uid,
+      'likers': []
+    });
   }
 
   List<Video> _videosListFromSnapshot(QuerySnapshot snapshot) {
@@ -124,6 +141,7 @@ class DatabaseService {
           name: doc.get('name') ?? '',
           url: doc.get('url') ?? '',
           likes: doc.get('likes') ?? 0,
+          //likers: doc.get('likers') ?? [],
           user_id: doc.get('user_id') ?? '');
     }).toList();
   }

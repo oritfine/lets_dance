@@ -2,31 +2,29 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/upload_video/face_tile.dart';
 import 'package:lets_dance/screens/upload_video/save_video.dart';
+import 'package:lets_dance/shared/consts.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../../services/database.dart';
-import '../../shared/loading.dart';
+import '../../shared/consts_objects/loading.dart';
 import '../../shared/designs.dart';
 
 class ChooseFace extends StatefulWidget {
   final String uid;
   final String username;
-  late final VideoPlayerController videoPlayerController;
+  final File video;
   final String backgroundName;
   final String avatarName;
-  final String serverUrl;
 
   ChooseFace(
       {required this.uid,
       required this.username,
-      required this.videoPlayerController,
+      required this.video,
       required this.backgroundName,
-      required this.avatarName,
-      required this.serverUrl});
+      required this.avatarName});
 
   @override
   _ChooseFaceState createState() => _ChooseFaceState();
@@ -34,42 +32,11 @@ class ChooseFace extends StatefulWidget {
 
 class _ChooseFaceState extends State<ChooseFace> {
   final DatabaseService _db = DatabaseService();
+  late final String nameInServer;
   bool loading = false;
   bool isNextActive = false;
   int selectedIndex = -1;
   final Storage storage = Storage();
-
-  List<String> facesNames = [
-    'Default',
-    'Angle',
-    'Bazz',
-    'Beast',
-    'Belle',
-    'Boy',
-    'Cinderella',
-    'Crazy',
-    'Crying',
-    'Elsa',
-    'Flower-Girl',
-    'Girl',
-    'Glasses',
-    'Kiss',
-    'Laugh',
-    'Laugh-2',
-    'MiniMouse',
-    'Nerd',
-    'NerdGirl',
-    'Piggi',
-    'Red-Angry',
-    'Shocking',
-    'Simba',
-    'Star-Wars',
-    'Stitch',
-    'Sun',
-    'Tinkerbell',
-    'Unicorn-Poop',
-    'Winking-Girl'
-  ];
 
   void selectIndex(int index) {
     setState(() {
@@ -78,47 +45,66 @@ class _ChooseFaceState extends State<ChooseFace> {
     });
   }
 
-  void _sendDataToServer() async {
-    var request = http.MultipartRequest(
-        "POST", Uri.parse('http://172.20.1.109:8080/process'));
-    request.fields['emoji'] = facesNames[selectedIndex];
-    request.fields['background'] = widget.backgroundName;
-    //request.fields['url'] = widget.serverUrl;
-    request.files.add(await http.MultipartFile.fromPath(
-        '${widget.username}_original_tmp',
-        widget.videoPlayerController.dataSource));
-    //request.fields['avatar'] = widget.avatar;
-    print(request);
-    request.send().then((response) {
-      http.Response.fromStream(response).then((onValue) async {
-        try {
-          //var file = await File('/video.mp4').create(/*recrusive: true*/);
-          var bytes = <int>[];
-          response.stream.listen((newBytes) {
-            bytes.addAll(newBytes);
-          });
-          Future<File> video = File('/video.mp4').writeAsBytes(bytes);
-          //   response.stream.listen{
-          //         (newBytes) {
-          //       bytes.addAll(newBytes);
-          //     },
-          // onDone: () async{
-          // await file.writeAsBytes(bytes);
-          // }
-          print(response);
-          // setState(() {
-          //   widget.videoPlayerController =
-          //       VideoPlayerController.file(onValue.body);
-          // });
+  Future<void> _sendDataToServer() async {
+    String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+    String video_name = '${widget.username}_${timestamp}.mp4';
+    String emoji = facesNames[selectedIndex];
+    if (selectedIndex == 0) {
+      emoji = 'None';
+    }
 
-          print('hi');
-          // get your response here...
-        } catch (e) {
-          print(e);
-          //Todo show message - upload your video again
-        }
-      });
-    });
+    var request =
+        http.MultipartRequest("POST", Uri.parse(upload_and_process_url));
+    request.fields['url'] = video_name;
+    request.fields['background'] = widget.backgroundName;
+    request.fields['emoji'] = emoji;
+    request.fields['color_pallette'] = widget.avatarName;
+    request.files
+        .add(await http.MultipartFile.fromPath('video', widget.video.path));
+    print(request);
+    try {
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        setState(() {
+          nameInServer = video_name;
+        });
+        // try {
+        //   //var file = await File('/video.mp4').create(/*recrusive: true*/);
+        //   var bytes = <int>[];
+        //   await response.stream.listen((newBytes) {
+        //     print('entered to listen');
+        //     bytes.addAll(newBytes);
+        //     Future<File> video = File('/video_success.mp4').writeAsBytes(bytes);
+        //   });
+      }
+    } catch (e) {
+      print(e);
+      //TODO show error
+    }
+    //request.send().then((response) {
+    //http.Response.fromStream(response).then((onValue) async {
+
+    //   response.stream.listen{
+    //         (newBytes) {
+    //       bytes.addAll(newBytes);
+    //     },
+    // onDone: () async{
+    // await file.writeAsBytes(bytes);
+    // }
+    //print(response);
+    // setState(() {
+    //   widget.videoPlayerController =
+    //       VideoPlayerController.file(onValue.body);
+    // });
+
+    //print('hi');
+    // get your response here...
+    // } catch (e) {
+    //
+    //   //Todo show message - upload your video again
+    // }
+    //});
+    //});
   }
 
   @override
@@ -172,8 +158,7 @@ class _ChooseFaceState extends State<ChooseFace> {
                   //       )
                   //     : Container(),
                   //
-                  TextDesign(
-                      text: 'Choose an emoji for your avatar:', size: 18),
+                  TextDesign(text: choose_emoji_text, size: 18),
                   SizedBox(height: 18),
                   // Container(
                   //   height: 500,
@@ -212,7 +197,7 @@ class _ChooseFaceState extends State<ChooseFace> {
                       children: [
                         for (int i = 0; i < 28; i++)
                           FaceTile(
-                            facePath: 'images/faces/${facesNames[i]}.png',
+                            facePath: get_image_path('emoji', facesNames[i]),
                             onTap: () => selectIndex(i),
                             selected: i == selectedIndex,
                             faceName: facesNames[i],
@@ -228,20 +213,14 @@ class _ChooseFaceState extends State<ChooseFace> {
                       child: TextDesign(
                           text: 'Generate your Lets-Dance video!', size: 18),
                       onPressed: isNextActive
-                          ? () {
+                          ? () async {
+                              await _sendDataToServer();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SaveVideo(
-                                            videoPlayerController:
-                                                widget.videoPlayerController,
-                                            backgroundName:
-                                                widget.backgroundName,
-                                            avatarName: widget.avatarName,
-                                            faceName: selectedIndex == 0
-                                                ? 'None'
-                                                : facesNames[selectedIndex] +
-                                                    '.png',
+                                            url:
+                                                get_url_new_video(nameInServer),
                                             uid: widget.uid,
                                           )));
                             }

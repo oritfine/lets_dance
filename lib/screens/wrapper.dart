@@ -17,6 +17,5 @@ class Wrapper extends StatelessWidget {
     } else {
       return Home();
     }
-    print(user);
   }
 }

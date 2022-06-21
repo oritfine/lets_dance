@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-import 'package:lets_dance/shared/loading.dart';
+import 'package:lets_dance/screens/videos_list.dart';
+import 'package:lets_dance/shared/consts_objects/loading.dart';
 import 'package:http/http.dart' as http;
 
 import '../../services/database.dart';
@@ -11,29 +11,59 @@ import '../../shared/designs.dart';
 import '../home/home.dart';
 
 class SaveVideo extends StatefulWidget {
-  final VideoPlayerController videoPlayerController;
-  final String backgroundName;
-  final String avatarName;
-  final String faceName;
+  final String url;
   final String uid;
 
-  SaveVideo(
-      {required this.videoPlayerController,
-      required this.backgroundName,
-      required this.avatarName,
-      required this.faceName,
-      required this.uid});
+  SaveVideo({
+    required this.url,
+    required this.uid,
+  });
 
   @override
   _SaveVideoState createState() => _SaveVideoState();
 }
 
 class _SaveVideoState extends State<SaveVideo> {
+  // bool controller_initialized = false;
+  // VideoPlayerController videoPlayerController =
+  // VideoPlayerController.network(widget.url)
+  //   ..initialize().then((_) {
+  //     setState(() {
+  //       controller_initialized = true;
+  //     });
+  //   });
+
   String videoName = '';
   String error = '';
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
   final DatabaseService _db = DatabaseService();
+
+  void saveInDB() async {
+    String video_id = '';
+    try {
+      // adding video to videos collection
+      video_id =
+          await _db.addVideo(videoName, widget.url, widget.uid) as String;
+      // adding video to videos list of user in users collection
+      await _db.addVideoToUserVideosList(widget.uid, video_id);
+    } catch (e) {
+      if (video_id == '') {
+        print('Error in adding video to videos collection');
+      } else {
+        print('Error in adding video to user videos in users collection');
+      }
+      print(e);
+      setState(() {
+        error = "Error saving your video. Please try again";
+      });
+      // if (result == null) {
+      //   setState(() {
+      //     error = 'could not save video';
+      //     loading = false;
+      //   });
+    }
+  }
 
   Future<bool> _sendDataToServer() async {
     var request = http.MultipartRequest(
@@ -72,46 +102,48 @@ class _SaveVideoState extends State<SaveVideo> {
               child: Column(
                 children: [
                   SizedBox(height: 20.0),
-                  widget.videoPlayerController.value.isInitialized
-                      ? AspectRatio(
-                          aspectRatio:
-                              widget.videoPlayerController.value.aspectRatio,
-                          child: Stack(
-                            children: [
-                              VideoPlayer(widget.videoPlayerController),
-                              Align(
-                                alignment: Alignment.center,
-                                child: FloatingActionButton(
-                                  backgroundColor:
-                                      Colors.white.withOpacity(0.0),
-                                  onPressed: () {
-                                    // Wrap the play or pause in a call to `setState`. This ensures the
-                                    // correct icon is shown.
-                                    setState(() {
-                                      // If the video is playing, pause it.
-                                      if (widget.videoPlayerController.value
-                                          .isPlaying) {
-                                        widget.videoPlayerController.pause();
-                                      } else {
-                                        // If the video is paused, play it.
-                                        widget.videoPlayerController.play();
-                                      }
-                                    });
-                                  },
-                                  // Display the correct icon depending on the state of the player.
-                                  child: Icon(
-                                    color: Colors.grey[400]?.withOpacity(0.7),
-                                    size: 65,
-                                    widget.videoPlayerController.value.isPlaying
-                                        ? Icons.pause
-                                        : Icons.play_circle,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : Container(),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child:
+                        VideoWidget(url: widget.url, play: true, onTap: () {}),
+                  ),
+                  // ? AspectRatio(
+                  //     aspectRatio: videoPlayerController.value.aspectRatio,
+                  //     child: Stack(
+                  //       children: [
+                  //         VideoPlayer(videoPlayerController),
+                  //         Align(
+                  //           alignment: Alignment.center,
+                  //           child: FloatingActionButton(
+                  //             backgroundColor:
+                  //                 Colors.white.withOpacity(0.0),
+                  //             onPressed: () {
+                  //               // Wrap the play or pause in a call to `setState`. This ensures the
+                  //               // correct icon is shown.
+                  //               setState(() {
+                  //                 // If the video is playing, pause it.
+                  //                 if (videoPlayerController
+                  //                     .value.isPlaying) {
+                  //                   videoPlayerController.pause();
+                  //                 } else {
+                  //                   // If the video is paused, play it.
+                  //                   videoPlayerController.play();
+                  //                 }
+                  //               });
+                  //             },
+                  //             // Display the correct icon depending on the state of the player.
+                  //             child: Icon(
+                  //               color: Colors.grey[400]?.withOpacity(0.7),
+                  //               size: 65,
+                  //               videoPlayerController.value.isPlaying
+                  //                   ? Icons.pause
+                  //                   : Icons.play_circle,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //: Container(),
                   SizedBox(height: 40),
                   Form(
                     key: _formKey,
@@ -127,40 +159,19 @@ class _SaveVideoState extends State<SaveVideo> {
                             }),
                         SizedBox(height: 20.0),
                         ElevatedButton(
-                          style: button_style,
-                          child: TextDesign(text: 'Save Video', size: 18),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
+                            style: button_style,
+                            child: TextDesign(text: 'Save Video', size: 18),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
 //                              setState(() => loading = true);
-                              bool succeeded = await _sendDataToServer();
-                              if (!succeeded) {
-                                //                              setState(() => loading = false);
-                                error =
-                                    "Error saving your video. Please try again";
-                                // TODO popup message of error saving in server
-                                return;
-                              } else {
-                                String video_id = await _db.addVideo(
-                                    'video_tmp',
-                                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                                    widget.uid) as String;
-                                succeeded = await _db.addVideoToUserVideosList(
-                                    widget.uid, video_id);
+                                // = await _sendDataToServer();
+                                saveInDB();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home()));
                               }
-                              if (!succeeded) {
-                                error =
-                                    "Error saving your video. Please try again";
-                                // TODO popup message of error saving in db
-                              }
-                              // if (result == null) {
-                              //   setState(() {
-                              //     error = 'could not save video';
-                              //     loading = false;
-                              //   });
-                              // }
-                            }
-                          },
-                        ),
+                            }),
                         SizedBox(height: 20),
                         ElevatedButton(
                           style: disabled_next_style,

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lets_dance/shared/loading.dart';
+import 'package:lets_dance/shared/consts_objects/loading.dart';
 import '../../shared/designs.dart';
 import '../../services/auth.dart';
 
 class Register extends StatefulWidget {
-  //const ({Key? key}) : super(key: key);
 
   final Function toggleView;
   Register({required this.toggleView});

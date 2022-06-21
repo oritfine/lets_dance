@@ -2,21 +2,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/upload_video/avatar_tile.dart';
 import 'package:lets_dance/screens/upload_video/choose_face.dart';
-import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
+import 'package:lets_dance/shared/consts.dart';
 import '../../shared/designs.dart';
 
 class ChooseAvatar extends StatefulWidget {
   final String uid;
   final String username;
-  final VideoPlayerController videoPlayerController;
+  final File video;
   final String backgroundName;
 
   ChooseAvatar(
       {required this.uid,
       required this.username,
-      required this.videoPlayerController,
+      required this.video,
       required this.backgroundName});
 
   @override
@@ -24,17 +24,9 @@ class ChooseAvatar extends StatefulWidget {
 }
 
 class _ChooseAvatarState extends State<ChooseAvatar> {
-  String serverUrl = '';
   bool isNextActive = false;
   int selectedIndex = -1;
   final Storage storage = Storage();
-
-  List<String> avatarNames = [
-    'Green',
-    'Pink-Lightblue-Yellow',
-    'Green-Pink-Red',
-    'Purple-Blue'
-  ];
 
   void selectIndex(int index) {
     setState(() {
@@ -52,7 +44,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
         padding: EdgeInsets.only(left: 30, top: 20, right: 30),
         child: Column(
           children: [
-            TextDesign(text: 'Choose an avatar for your video:', size: 18),
+            TextDesign(text: choose_avatar_text, size: 18),
             SizedBox(height: 18),
             Container(
               height: MediaQuery.of(context).size.height * 0.69,
@@ -67,7 +59,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                 children: [
                   for (int i = 0; i < 4; i++)
                     AvatarTile(
-                      avatarPath: 'images/avatars/${avatarNames[i]}.png',
+                      avatarPath: get_image_path('avatar', avatarNames[i]),
                       onTap: () => selectIndex(i),
                       selected: i == selectedIndex,
                       avatarName: avatarNames[i],
@@ -89,13 +81,10 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChooseFace(
-                                        videoPlayerController:
-                                            widget.videoPlayerController,
-                                        backgroundName:
-                                            selectedIndex.toString() + '.jpg',
+                                        video: widget.video,
+                                        backgroundName: widget.backgroundName,
                                         avatarName:
-                                            avatarNames[selectedIndex] + '.png',
-                                        serverUrl: serverUrl,
+                                            avatarNamesToSend[selectedIndex],
                                         uid: widget.uid,
                                         username: widget.username,
                                       )));

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../designs.dart';
+
 class MyMenuItem extends StatelessWidget {
   const MyMenuItem(
       {Key? key,
@@ -28,10 +30,7 @@ class MyMenuItem extends StatelessWidget {
             const SizedBox(
               width: 25,
             ),
-            Text(
-              name,
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            )
+            TextDesign(text: name, size: 20)
           ],
         ),
       ),

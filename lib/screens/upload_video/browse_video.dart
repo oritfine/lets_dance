@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:lets_dance/shared/consts_objects/floating_play_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +24,6 @@ class _BrowseVideoState extends State<BrowseVideo> {
   File? _video;
   final picker = ImagePicker();
   bool isNextActive = false;
-  String serverUrl = '';
 
   // String get url {
   //   return serverUrl;
@@ -46,7 +46,6 @@ class _BrowseVideoState extends State<BrowseVideo> {
   // }
 
   void _uploadFileToServer(File video) async {
-    String serverUrl = '';
     var request = http.MultipartRequest(
         "POST", Uri.parse('http://172.20.1.109:8080/upload'));
     request.files.add(await http.MultipartFile.fromPath('video', video.path));
@@ -56,11 +55,11 @@ class _BrowseVideoState extends State<BrowseVideo> {
       http.Response.fromStream(response).then((onValue) {
         try {
           print(response);
-          setState(() {
-            serverUrl = json.decode(onValue.body)['url'];
-          });
+          // setState(() {
+          //   serverUrl = json.decode(onValue.body)['url'];
+          // });
           //serverUrl = json.decode(onValue.body)['url'];
-          print('response from server: ' + serverUrl);
+          //print('response from server: ' + serverUrl);
           final String url = json.decode(onValue.body)['url'];
         } catch (e) {
           print(e);
@@ -151,36 +150,8 @@ class _BrowseVideoState extends State<BrowseVideo> {
                                 child: Stack(
                                   children: [
                                     VideoPlayer(_videoPlayerController),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: FloatingActionButton(
-                                        backgroundColor:
-                                            Colors.white.withOpacity(0.0),
-                                        onPressed: () {
-                                          // Wrap the play or pause in a call to `setState`. This ensures the
-                                          // correct icon is shown.
-                                          setState(() {
-                                            // If the video is playing, pause it.
-                                            if (_videoPlayerController
-                                                .value.isPlaying) {
-                                              _videoPlayerController.pause();
-                                            } else {
-                                              // If the video is paused, play it.
-                                              _videoPlayerController.play();
-                                            }
-                                          });
-                                        },
-                                        // Display the correct icon depending on the state of the player.
-                                        child: Icon(
-                                          color: Colors.grey[400]
-                                              ?.withOpacity(0.7),
-                                          size: 65,
-                                          _videoPlayerController.value.isPlaying
-                                              ? Icons.pause
-                                              : Icons.play_circle,
-                                        ),
-                                      ),
-                                    ),
+                                    FloatingPlayButton(
+                                        controller: _videoPlayerController),
                                   ],
                                 ),
                               )
@@ -195,16 +166,14 @@ class _BrowseVideoState extends State<BrowseVideo> {
                   style: isNextActive ? button_style : disabled_next_style,
                   child: TextDesign(text: 'Next', size: 18),
                   onPressed: isNextActive
-                      ? () async {
-                          _uploadFileToServer(_video!);
+                      ? () {
+                          //_uploadFileToServer(_video!);
                           //_sendVideo(_video!);
-                          await Navigator.push(
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChooseBackground(
-                                        videoPlayerController:
-                                            _videoPlayerController,
-                                        serverUrl: serverUrl,
+                                        video: _video!,
                                         uid: widget.uid,
                                         username: widget.username,
                                       )));

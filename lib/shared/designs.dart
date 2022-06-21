@@ -55,6 +55,7 @@ class AppBarDesign extends StatelessWidget implements PreferredSizeWidget {
 
 final BorderTileDesign = BoxDecoration(
   color: Colors.white.withOpacity(0),
+  borderRadius: new BorderRadius.circular(15.0),
   border: Border.all(
     color: text_color!,
     width: 5,

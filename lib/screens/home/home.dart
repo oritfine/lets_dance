@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lets_dance/screens/home/userlist.dart';
 import 'package:lets_dance/services/auth.dart';
 import 'package:lets_dance/services/database.dart';
 import 'package:lets_dance/shared/menu/navigation_menu.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 import '../../feed.dart';
 import '../../models/user.dart';
 import '../../models/video.dart';
 import '../../models/videos.dart';
 import '../../shared/designs.dart';
+import '../upload_video/save_video.dart';
 import '../videos_list.dart';
 
 class Home extends StatelessWidget {
@@ -44,7 +47,7 @@ class Home extends StatelessWidget {
             uid: firebase_auth.currentUser!.uid),
         backgroundColor: background_color,
         appBar: AppBar(
-          title: TextDesign(text: 'Lets Dance', size: 24),
+          title: TextDesign(text: 'Lets-Dance', size: 24),
           centerTitle: true,
           //backgroundColor: Color.fromRGBO(143, 78, 208, 0.9),
           //backgroundColor: Color.fromRGBO(141, 70, 234, 1.0),
@@ -67,28 +70,44 @@ class Home extends StatelessWidget {
                   color: Colors.grey[900],
                 ),
                 onPressed: () => _showSettingsPanel(),
-                label:
-                    Text('Settings', style: TextStyle(color: Colors.grey[900])))
+                label: Text('Settings',
+                    style: GoogleFonts.josefinSans(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: Colors.grey[900])))
           ],
         ),
         body: Column(
           children: [
             ElevatedButton(
               //style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
-              style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(87, 72, 231, 1.0)),
+              style: ElevatedButton.styleFrom(primary: button_color),
               child: Text(
                 'Upload New Video',
                 style: TextStyle(color: Colors.grey[300]),
               ),
               onPressed: () async {
-                String video_id = await _db.addVideo(
-                    'video',
-                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                    firebase_auth.currentUser!.uid) as String;
-                _db.usersCollection.doc(firebase_auth.currentUser!.uid).update({
-                  'videos': FieldValue.arrayUnion([video_id])
-                });
+                // VideoPlayerController videoPlayerController =
+                //     VideoPlayerController.network(
+                //         'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/get_video?url=final_yanir_1655739133326.mp4')
+                //       ..initialize();
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => SaveVideo(
+                //               url:
+                //                   'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/get_video?url=final_yanir_1655739133326.mp4',
+                //               //videoPlayerController: videoPlayerController,
+                //               uid: 'kxtSTKLPnDdpHn9GSUkSwbOb0fl1',
+                //             )));
+                // String video_id = await _db.addVideo(
+                //     'video',
+                //     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                //     firebase_auth.currentUser!.uid) as String;
+                // _db.usersCollection.doc(firebase_auth.currentUser!.uid).update({
+                //   'videos': FieldValue.arrayUnion([video_id])
+                // });
+
                 // Map<String, String> videos = {
                 //   'video1': 'url1',
                 //   'video2': 'url2',
@@ -103,10 +122,10 @@ class Home extends StatelessWidget {
               },
             ),
             Container(
-              height: 600,
+              height: MediaQuery.of(context).size.height * 0.8,
               //child: MyVideosList(uid: firebase_auth.currentUser?.uid),
-              child: //VideoList(),
-                  Container(),
+              child: VideoList(uid: firebase_auth.currentUser!.uid),
+              //Container(),
             ),
           ],
         ),

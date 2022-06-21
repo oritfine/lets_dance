@@ -2,21 +2,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/upload_video/background_tile.dart';
 import 'package:lets_dance/screens/upload_video/choose_avatar.dart';
-import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
+import 'package:lets_dance/shared/consts.dart';
 import '../../shared/designs.dart';
 
 class ChooseBackground extends StatefulWidget {
   final String uid;
   final String username;
-  final VideoPlayerController videoPlayerController;
-  final String serverUrl;
+  final File video;
   ChooseBackground(
-      {required this.uid,
-      required this.username,
-      required this.videoPlayerController,
-      required this.serverUrl});
+      {required this.uid, required this.username, required this.video});
 
   @override
   _ChooseBackgroundState createState() => _ChooseBackgroundState();
@@ -83,7 +79,7 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
             //       )
             //     : Container(),
             //
-            TextDesign(text: 'Choose a background for your video:', size: 18),
+            TextDesign(text: choose_background_text, size: 18),
             SizedBox(height: 18),
             // Container(
             //   height: 500,
@@ -122,7 +118,7 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                 children: [
                   for (int i = 1; i < 52; i++)
                     BackgroundTile(
-                      backgroundPath: 'images/background_images/$i.jpg',
+                      backgroundPath: get_image_path('background', i.toString()),
                       onTap: () => selectIndex(i),
                       selected: i == selectedIndex,
                       backgroundIndex: i,
@@ -197,13 +193,11 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                   child: TextDesign(text: 'Next', size: 18),
                   onPressed: isNextActive
                       ? () {
-                          print('url in choose_background:' + widget.serverUrl);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChooseAvatar(
-                                        videoPlayerController:
-                                            widget.videoPlayerController,
+                                        video: widget.video,
                                         backgroundName:
                                             selectedIndex.toString() + '.jpg',
                                         uid: widget.uid,

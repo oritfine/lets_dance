@@ -85,12 +85,12 @@
 //                                   // correct icon is shown.
 //                                   setState(() {
 //                                     // If the video is playing, pause it.
-//                                     if (widget.videoPlayerController.value
+//                                     if (controller.value
 //                                         .isPlaying) {
-//                                       widget.videoPlayerController.pause();
+//                                      controller.pause();
 //                                     } else {
 //                                       // If the video is paused, play it.
-//                                       widget.videoPlayerController.play();
+//                                       controller.play();
 //                                     }
 //                                   });
 //                                 },

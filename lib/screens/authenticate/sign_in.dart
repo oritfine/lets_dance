@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lets_dance/services/auth.dart';
-import 'package:lets_dance/shared/loading.dart';
+import 'package:lets_dance/shared/consts_objects/loading.dart';
 import '../../shared/designs.dart';
 
 class SignIn extends StatefulWidget {
@@ -65,8 +65,6 @@ class _SignInState extends State<SignIn> {
                           setState(() => loading = true);
                           dynamic result = await _auth
                               .signInWithEmailAndPassword(email, password);
-                          print('the result is:');
-                          print(result);
                           if (result == null) {
                             setState(() {
                               error =

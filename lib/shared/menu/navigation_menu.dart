@@ -5,6 +5,7 @@ import 'package:lets_dance/shared/menu/menu_item.dart';
 
 import '../../screens/upload_video/browse_video.dart';
 import '../../services/auth.dart';
+import '../designs.dart';
 
 class NavigationMenu extends StatelessWidget {
   NavigationMenu(
@@ -23,8 +24,8 @@ class NavigationMenu extends StatelessWidget {
     //Navigator.pop(context);
     switch (index) {
       case 0:
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => MyVideos()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => MyVideos(uid: uid)));
         break;
       case 1:
         Navigator.push(
@@ -74,13 +75,11 @@ class NavigationMenu extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(username!,
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                  TextDesign(text: username!, size: 20),
                   SizedBox(
                     height: 10,
                   ),
-                  Text(email!,
-                      style: TextStyle(fontSize: 18, color: Colors.white)),
+                  TextDesign(text: email!, size: 18),
                 ],
               )
             ],
@@ -100,11 +99,13 @@ class NavigationMenu extends StatelessWidget {
               icon: Icons.video_collection,
               onPressed: () => onItemPressed(context, index: 0),
             ),
+            SizedBox(height: 10),
             MyMenuItem(
               name: 'Create New Video',
               icon: Icons.video_call,
               onPressed: () => onItemPressed(context, index: 1),
             ),
+            SizedBox(height: 10),
             MyMenuItem(
               name: 'Log Out',
               icon: Icons.person,
