@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lets_dance/shared/consts_objects/loading.dart';
+import '../../shared/consts_objects/buttons.dart';
 import '../../shared/designs.dart';
 import '../../services/auth.dart';
 
 class Register extends StatefulWidget {
-
   final Function toggleView;
   Register({required this.toggleView});
 
@@ -28,6 +28,7 @@ class _RegisterState extends State<Register> {
     return loading
         ? Loading()
         : Scaffold(
+            resizeToAvoidBottomInset: false,
             backgroundColor: background_color,
             appBar: AppBarDesign(text: 'Sign up to Lets Dance'),
             body: Container(
@@ -66,8 +67,27 @@ class _RegisterState extends State<Register> {
                           setState(() => password = val);
                         }),
                     SizedBox(height: 20.0),
+                    // Button(
+                    //   text: 'Register',
+                    //   color: appbar_color,
+                    //   isAsync: true,
+                    //   onPressed: () async {
+                    //     if (_formKey.currentState!.validate()) {
+                    //       setState(() => loading = true);
+                    //       dynamic result =
+                    //           await _auth.registerWithEmailAndPassword(
+                    //               username, email, password);
+                    //       if (result == null) {
+                    //         setState(() {
+                    //           loading = false;
+                    //           error = 'please supply a valid email';
+                    //         });
+                    //       }
+                    //     }
+                    //   },
+                    // ),
                     ElevatedButton(
-                      style: button_style,
+                      style: buttonStyle,
                       child: TextDesign(text: 'Register', size: 18),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {

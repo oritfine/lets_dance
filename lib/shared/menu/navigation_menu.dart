@@ -3,6 +3,8 @@ import 'package:lets_dance/screens/my_videos.dart';
 import 'package:lets_dance/screens/upload_video/browse_video_prev.dart';
 import 'package:lets_dance/shared/menu/menu_item.dart';
 
+import '../../models/video.dart';
+import '../../screens/my_videos_list.dart';
 import '../../screens/upload_video/browse_video.dart';
 import '../../services/auth.dart';
 import '../designs.dart';
@@ -13,19 +15,24 @@ class NavigationMenu extends StatelessWidget {
       required this.auth,
       required this.email,
       required this.username,
-      required this.uid});
+      required this.uid,
+      required this.videos});
   final AuthService auth;
   final String? email;
   final String? username;
   final String uid;
+  List<Video> videos;
 
   // Navigate by index which was sent to function
   void onItemPressed(BuildContext context, {required int index}) {
     //Navigator.pop(context);
     switch (index) {
       case 0:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => MyVideos(uid: uid)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MyVideos(uid: uid, videos: videos)));
+        //MaterialPageRoute(builder: (context) => OldHome()));
         break;
       case 1:
         Navigator.push(
@@ -46,7 +53,7 @@ class NavigationMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.grey[700],
+      backgroundColor: menu_background_color,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

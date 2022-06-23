@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lets_dance/shared/consts_objects/floating_play_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import '../../shared/consts_objects/buttons.dart';
 import 'choose_background.dart';
 import 'dart:convert';
 import '../../shared/designs.dart';
@@ -70,7 +72,7 @@ class _BrowseVideoState extends State<BrowseVideo> {
     //return serverUrl;
   }
 
-  _pickVideo() async {
+  void _pickVideo() async {
     final video = await picker.pickVideo(source: ImageSource.gallery);
     if (video == null) {
       print('video is null');
@@ -101,12 +103,18 @@ class _BrowseVideoState extends State<BrowseVideo> {
                         padding:
                             EdgeInsets.only(left: 150, top: 20, right: 150),
                         child: ElevatedButton(
-                          style: button_style,
+                          style: buttonStyle,
                           child: TextDesign(text: 'Browse', size: 18),
                           onPressed: () {
                             _pickVideo();
                           },
                         ),
+                        // child: Button(
+                        //   text: 'Browse',
+                        //   color: appbar_color,
+                        //   isAsync: true,
+                        //   onPressed: () => _pickVideo(),
+                        // ),
                       ),
                       const SizedBox(height: 40),
                       Container(
@@ -131,8 +139,13 @@ class _BrowseVideoState extends State<BrowseVideo> {
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 150, top: 20, right: 150),
+                        // child: Button(
+                        //     text: 'Browse',
+                        //     color: appbar_color,
+                        //     isAsync: false,
+                        //     onPressed: () => _pickVideo),
                         child: ElevatedButton(
-                          style: button_style,
+                          style: buttonStyle,
                           child: TextDesign(text: 'Browse', size: 18),
                           onPressed: () {
                             _pickVideo();
@@ -162,8 +175,30 @@ class _BrowseVideoState extends State<BrowseVideo> {
                   ),
             Padding(
               padding: EdgeInsets.only(left: 250),
+              // child: isNextActive
+              //     ? Button(
+              //         text: 'Next',
+              //         color: appbar_color,
+              //         isAsync: false,
+              //         onPressed: () {
+              //           Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                   builder: (context) => ChooseBackground(
+              //                         video: _video!,
+              //                         uid: widget.uid,
+              //                         username: widget.username,
+              //                       )));
+              //         },
+              //       )
+              //     : Button(
+              //         text: 'Next',
+              //         color: disabled_next_color,
+              //         isAsync: false,
+              //         onPressed: () => {},
+              //       )
               child: ElevatedButton(
-                  style: isNextActive ? button_style : disabled_next_style,
+                  style: isNextActive ? buttonStyle : disabledButtonStyle,
                   child: TextDesign(text: 'Next', size: 18),
                   onPressed: isNextActive
                       ? () {

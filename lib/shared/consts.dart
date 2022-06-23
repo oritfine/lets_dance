@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
-
-String upload_and_process_url = 'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/upload_and_process';
+String upload_and_process_url =
+    'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/upload_and_process';
+String get_video_url =
+    'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/get_video?url=final_';
 String choose_background_text = 'Choose a background for your video:';
 String choose_avatar_text = 'Choose an avatar for your video:';
 String choose_emoji_text = 'Choose an emoji for your avatar:';
+String generate_text = 'Generating your Lets-Dance video';
 
 List<String> avatarNames = [
   'Green',
@@ -52,18 +54,13 @@ List<String> facesNames = [
 ];
 
 String get_image_path(String type, String imageName) {
-  if(type == 'background') {
+  if (type == 'background') {
     return 'images/background_images/$imageName.jpg';
   }
-  if(type == 'avatar') {
+  if (type == 'avatar') {
     return 'images/avatars/$imageName.png';
-  }
-  else {
+  } else {
     // type == 'emoji'
     return 'images/faces/$imageName.png';
   }
-}
-
-String get_url_new_video(String nameInServer) {
-  return 'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/get_video?url=final_${nameInServer}';
 }

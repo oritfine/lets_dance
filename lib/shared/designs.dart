@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const background_color = Color.fromRGBO(18, 17, 18, 1);
+const menu_background_color = Color.fromRGBO(97, 97, 97, 1.0);
 const appbar_color = Color.fromRGBO(87, 72, 231, 1.0);
 const button_color = Color.fromRGBO(87, 72, 231, 1.0);
 final text_color = Colors.grey[300];
-final disabled_next_style =
-    ElevatedButton.styleFrom(primary: Colors.white54.withOpacity(0.5));
+final disabled_next_color = Color.fromRGBO(224, 224, 224, 1).withOpacity(0.5);
 
 const textFormDecoration = InputDecoration(
     fillColor: Color.fromRGBO(224, 224, 224, 1),
@@ -62,4 +62,10 @@ final BorderTileDesign = BoxDecoration(
   ),
 );
 
-final button_style = ElevatedButton.styleFrom(primary: appbar_color);
+final buttonStyle = ElevatedButton.styleFrom(
+    primary: button_color,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));
+
+final disabledButtonStyle = ElevatedButton.styleFrom(
+    primary: disabled_next_color,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)));

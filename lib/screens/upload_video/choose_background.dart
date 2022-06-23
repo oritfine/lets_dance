@@ -5,6 +5,7 @@ import 'package:lets_dance/screens/upload_video/choose_avatar.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
 import 'package:lets_dance/shared/consts.dart';
+import '../../shared/consts_objects/buttons.dart';
 import '../../shared/designs.dart';
 
 class ChooseBackground extends StatefulWidget {
@@ -118,7 +119,8 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
                 children: [
                   for (int i = 1; i < 52; i++)
                     BackgroundTile(
-                      backgroundPath: get_image_path('background', i.toString()),
+                      backgroundPath:
+                          get_image_path('background', i.toString()),
                       onTap: () => selectIndex(i),
                       selected: i == selectedIndex,
                       backgroundIndex: i,
@@ -188,8 +190,32 @@ class _ChooseBackgroundState extends State<ChooseBackground> {
             ),
             Padding(
               padding: EdgeInsets.only(left: 250),
+              // child: isNextActive
+              //     ? Button(
+              //         text: 'Next',
+              //         color: appbar_color,
+              //         isAsync: false,
+              //         onPressed: () {
+              //           Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                   builder: (context) => ChooseAvatar(
+              //                         video: widget.video,
+              //                         backgroundName:
+              //                             selectedIndex.toString() + '.jpg',
+              //                         uid: widget.uid,
+              //                         username: widget.username,
+              //                       )));
+              //         },
+              //       )
+              //     : Button(
+              //         text: 'Next',
+              //         color: disabled_next_color,
+              //         isAsync: false,
+              //         onPressed: () => {},
+              //       )
               child: ElevatedButton(
-                  style: isNextActive ? button_style : disabled_next_style,
+                  style: isNextActive ? buttonStyle : disabledButtonStyle,
                   child: TextDesign(text: 'Next', size: 18),
                   onPressed: isNextActive
                       ? () {

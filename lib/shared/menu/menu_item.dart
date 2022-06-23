@@ -37,3 +37,39 @@ class MyMenuItem extends StatelessWidget {
     );
   }
 }
+
+class VideoMenuItem extends StatelessWidget {
+  const VideoMenuItem(
+      {Key? key,
+      required this.name,
+      required this.icon,
+      required this.onPressed})
+      : super(key: key);
+
+  final String name;
+  final IconData icon;
+  final Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onPressed,
+      child: SizedBox(
+        height: 40,
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 25,
+              color: Colors.white,
+            ),
+            const SizedBox(
+              width: 25,
+            ),
+            TextDesign(text: name, size: 20)
+          ],
+        ),
+      ),
+    );
+  }
+}

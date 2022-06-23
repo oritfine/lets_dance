@@ -50,8 +50,7 @@ class AuthService {
       User? user = credential.user;
       user?.updateDisplayName(username);
       // create a new document for the user with the uid in users collection
-      await DatabaseService(uid: user!.uid)
-          .updateUserData(username, 100 /*, ["path1", "path2", "path3"]*/);
+      await DatabaseService(uid: user!.uid).updateUserData(username, 100, []);
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());

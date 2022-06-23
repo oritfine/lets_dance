@@ -4,8 +4,6 @@ import 'package:lets_dance/screens/home/user_tile.dart';
 import 'package:provider/provider.dart';
 
 class userList extends StatefulWidget {
-  //const userList({Key? key}) : super(key: key);
-
   @override
   _userListState createState() => _userListState();
 }

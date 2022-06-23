@@ -5,6 +5,7 @@ import 'package:lets_dance/screens/upload_video/choose_face.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
 import 'package:lets_dance/shared/consts.dart';
+import '../../shared/consts_objects/buttons.dart';
 import '../../shared/designs.dart';
 
 class ChooseAvatar extends StatefulWidget {
@@ -72,8 +73,33 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
             ),
             Padding(
               padding: EdgeInsets.only(left: 250),
+              // child: isNextActive
+              //     ? Button(
+              //         text: 'Next',
+              //         color: appbar_color,
+              //         isAsync: false,
+              //         onPressed: () {
+              //           Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                   builder: (context) => ChooseFace(
+              //                         video: widget.video,
+              //                         backgroundName: widget.backgroundName,
+              //                         avatarName:
+              //                             avatarNamesToSend[selectedIndex],
+              //                         uid: widget.uid,
+              //                         username: widget.username,
+              //                       )));
+              //         },
+              //       )
+              //     : Button(
+              //         text: 'Next',
+              //         color: disabled_next_color,
+              //         isAsync: false,
+              //         onPressed: () => {},
+              //       )
               child: ElevatedButton(
-                  style: isNextActive ? button_style : disabled_next_style,
+                  style: isNextActive ? buttonStyle : disabledButtonStyle,
                   child: TextDesign(text: 'Next', size: 18),
                   onPressed: isNextActive
                       ? () {

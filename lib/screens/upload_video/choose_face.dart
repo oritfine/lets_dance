@@ -9,6 +9,7 @@ import 'package:lets_dance/services/storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../../services/database.dart';
+import '../../shared/consts_objects/buttons.dart';
 import '../../shared/consts_objects/loading.dart';
 import '../../shared/designs.dart';
 
@@ -113,7 +114,7 @@ class _ChooseFaceState extends State<ChooseFace> {
       backgroundColor: background_color,
       appBar: AppBarDesign(text: 'Choose Emoji'),
       body: loading
-          ? Loading()
+          ? Generating()
           : Padding(
               padding: EdgeInsets.only(left: 30, top: 20, right: 30),
               child: Column(
@@ -208,19 +209,42 @@ class _ChooseFaceState extends State<ChooseFace> {
                   SizedBox(
                     height: 25,
                   ),
+                  // isNextActive
+                  //     ? Button(
+                  //         text: 'Next',
+                  //         color: appbar_color,
+                  //         isAsync: false,
+                  //         onPressed: () {
+                  //           Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) => SaveVideo(
+                  //                         url: get_video_url + nameInServer,
+                  //                         uid: widget.uid,
+                  //                       )));
+                  //         },
+                  //       )
+                  //     : Button(
+                  //         text: 'Next',
+                  //         color: disabled_next_color,
+                  //         isAsync: false,
+                  //         onPressed: () => {},
+                  //       )
                   ElevatedButton(
-                      style: isNextActive ? button_style : disabled_next_style,
+                      style: isNextActive ? buttonStyle : disabledButtonStyle,
                       child: TextDesign(
                           text: 'Generate your Lets-Dance video!', size: 18),
                       onPressed: isNextActive
                           ? () async {
-                              await _sendDataToServer();
+                              setState(() => loading = true);
+                              await Future.delayed(Duration(seconds: 5));
+                              //await _sendDataToServer();
+                              setState(() => loading = false);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SaveVideo(
-                                            url:
-                                                get_url_new_video(nameInServer),
+                                            url: get_video_url + 'nameInServer',
                                             uid: widget.uid,
                                           )));
                             }

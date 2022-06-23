@@ -2,11 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:lets_dance/screens/videos_list.dart';
+import 'package:lets_dance/screens/my_videos.dart';
 import 'package:lets_dance/shared/consts_objects/loading.dart';
 import 'package:http/http.dart' as http;
 
+import '../../models/video.dart';
 import '../../services/database.dart';
+import '../../shared/consts_objects/buttons.dart';
+import '../../shared/consts_objects/video_object.dart';
 import '../../shared/designs.dart';
 import '../home/home.dart';
 
@@ -47,6 +50,8 @@ class _SaveVideoState extends State<SaveVideo> {
           await _db.addVideo(videoName, widget.url, widget.uid) as String;
       // adding video to videos list of user in users collection
       await _db.addVideoToUserVideosList(widget.uid, video_id);
+      print(widget.uid);
+      print(video_id);
     } catch (e) {
       if (video_id == '') {
         print('Error in adding video to videos collection');
@@ -95,6 +100,7 @@ class _SaveVideoState extends State<SaveVideo> {
     return loading
         ? Loading()
         : Scaffold(
+            resizeToAvoidBottomInset: false,
             backgroundColor: background_color,
             appBar: AppBarDesign(text: 'Save Video'),
             body: Padding(
@@ -103,9 +109,23 @@ class _SaveVideoState extends State<SaveVideo> {
                 children: [
                   SizedBox(height: 20.0),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    child:
-                        VideoWidget(url: widget.url, play: true, onTap: () {}),
+                    height: MediaQuery.of(context).size.height * 0.32,
+                    child: VideoWidget(
+                      uid: widget.uid,
+                      url: widget.url,
+                      play: true,
+                      showDetails: false,
+                      // showName: false,
+                      // showLikes: false,
+                      // isLiked: false,
+                      video: Video(
+                          video_id: "",
+                          user_id: widget.uid,
+                          url: widget.url,
+                          likers: [],
+                          likes: 0,
+                          name: 'tmp'),
+                    ),
                   ),
                   // ? AspectRatio(
                   //     aspectRatio: videoPlayerController.value.aspectRatio,
@@ -158,14 +178,39 @@ class _SaveVideoState extends State<SaveVideo> {
                               setState(() => videoName = val);
                             }),
                         SizedBox(height: 20.0),
+//                         Button(
+//                             text: 'Save Video',
+//                             color: appbar_color,
+//                             isAsync: true,
+//                             onPressed: () async {
+//                               if (_formKey.currentState!.validate()) {
+//                                 setState(() => loading = true);
+// //                                = await _sendDataToServer();
+//                                 await Future.delayed(Duration(seconds: 5));
+//
+//                                 saveInDB();
+//                                 setState(() {
+//                                   loading = false;
+//                                 });
+//                                 Navigator.push(
+//                                     context,
+//                                     MaterialPageRoute(
+//                                         builder: (context) => Home()));
+//                               }
+//                             }),
                         ElevatedButton(
-                            style: button_style,
+                            style: buttonStyle,
                             child: TextDesign(text: 'Save Video', size: 18),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-//                              setState(() => loading = true);
-                                // = await _sendDataToServer();
+                                setState(() => loading = true);
+//                                = await _sendDataToServer();
+                                await Future.delayed(Duration(seconds: 5));
+
                                 saveInDB();
+                                setState(() {
+                                  loading = false;
+                                });
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -173,8 +218,20 @@ class _SaveVideoState extends State<SaveVideo> {
                               }
                             }),
                         SizedBox(height: 20),
+                        // Button(
+                        //     text: 'Cancel',
+                        //     color: disabled_next_color,
+                        //     isAsync: false,
+                        //     onPressed: () {
+                        //       print('cancel');
+                        //       Navigator.push(
+                        //           context,
+                        //           MaterialPageRoute(
+                        //               builder: (context) => Home()));
+                        //       //builder: (context) => MyVideos(uid: uid, videos: videos)));
+                        //     }),
                         ElevatedButton(
-                          style: disabled_next_style,
+                          style: disabledButtonStyle,
                           child: TextDesign(text: 'Cancel', size: 18),
                           onPressed: () {
                             print('cancel');
@@ -182,6 +239,7 @@ class _SaveVideoState extends State<SaveVideo> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Home()));
+                            //builder: (context) => MyVideos(uid: uid, videos: videos)));
                           },
                         ),
                         error == ''
