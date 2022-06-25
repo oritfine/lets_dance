@@ -7,7 +7,7 @@ import '../models/videos.dart';
 class DatabaseService {
   final String? uid;
   DatabaseService({this.uid});
-  // collection reference
+  // collection references
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection("users");
   final CollectionReference userVideosCollection =
@@ -80,11 +80,6 @@ class DatabaseService {
   }
 
   // get user document from id
-  // Stream<UserData> get userData {
-  //   return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
-  // }
-
-  // get user document from id
   Stream<UserModel> get user {
     //return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
     return usersCollection
@@ -92,12 +87,6 @@ class DatabaseService {
         .snapshots()
         .map(_userDataFromSnapshot); //: Stream<UserModel>.value(null);
   }
-
-  // Future<List<Object?>> getUsersData() async {
-  //   QuerySnapshot querySnapshot = await usersCollection.get();
-  //   final data = querySnapshot.docs.map((doc) => doc.data()).toList();
-  //   return data;
-  // }
 
   // ------------ user video collection ------------
 

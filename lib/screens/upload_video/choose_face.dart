@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/upload_video/face_tile.dart';
 import 'package:lets_dance/screens/upload_video/save_video.dart';
 import 'package:lets_dance/shared/consts.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:lets_dance/services/storage.dart';
 import 'package:http/http.dart' as http;
-
-import '../../services/database.dart';
 import '../../shared/consts_objects/buttons.dart';
 import '../../shared/consts_objects/loading.dart';
 import '../../shared/designs.dart';
@@ -32,12 +29,12 @@ class ChooseFace extends StatefulWidget {
 }
 
 class _ChooseFaceState extends State<ChooseFace> {
-  final DatabaseService _db = DatabaseService();
   late final String nameInServer;
   bool loading = false;
   bool isNextActive = false;
   int selectedIndex = -1;
   final Storage storage = Storage();
+  String error = '';
 
   void selectIndex(int index) {
     setState(() {
@@ -53,7 +50,7 @@ class _ChooseFaceState extends State<ChooseFace> {
     if (selectedIndex == 0) {
       emoji = 'None';
     }
-
+    print('name in server:' + video_name);
     var request =
         http.MultipartRequest("POST", Uri.parse(upload_and_process_url));
     request.fields['url'] = video_name;
@@ -67,45 +64,15 @@ class _ChooseFaceState extends State<ChooseFace> {
       http.StreamedResponse response = await request.send();
       if (response.statusCode == 200) {
         setState(() {
-          nameInServer = video_name;
+          nameInServer = 'final_' + video_name;
         });
-        // try {
-        //   //var file = await File('/video.mp4').create(/*recrusive: true*/);
-        //   var bytes = <int>[];
-        //   await response.stream.listen((newBytes) {
-        //     print('entered to listen');
-        //     bytes.addAll(newBytes);
-        //     Future<File> video = File('/video_success.mp4').writeAsBytes(bytes);
-        //   });
       }
     } catch (e) {
       print(e);
-      //TODO show error
+      setState(() {
+        error = 'Could not generate video. Please try again';
+      });
     }
-    //request.send().then((response) {
-    //http.Response.fromStream(response).then((onValue) async {
-
-    //   response.stream.listen{
-    //         (newBytes) {
-    //       bytes.addAll(newBytes);
-    //     },
-    // onDone: () async{
-    // await file.writeAsBytes(bytes);
-    // }
-    //print(response);
-    // setState(() {
-    //   widget.videoPlayerController =
-    //       VideoPlayerController.file(onValue.body);
-    // });
-
-    //print('hi');
-    // get your response here...
-    // } catch (e) {
-    //
-    //   //Todo show message - upload your video again
-    // }
-    //});
-    //});
   }
 
   @override
@@ -190,7 +157,6 @@ class _ChooseFaceState extends State<ChooseFace> {
                     width: MediaQuery.of(context).size.width * 0.85,
                     child: GridView.count(
                       primary: false,
-                      //padding: const EdgeInsets.all(400),
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 15,
                       crossAxisCount: 3,
@@ -237,18 +203,19 @@ class _ChooseFaceState extends State<ChooseFace> {
                       onPressed: isNextActive
                           ? () async {
                               setState(() => loading = true);
-                              await Future.delayed(Duration(seconds: 5));
-                              //await _sendDataToServer();
+                              //await Future.delayed(Duration(seconds: 5));
+                              await _sendDataToServer();
                               setState(() => loading = false);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => SaveVideo(
-                                            url: get_video_url + 'nameInServer',
+                                            url: nameInServer,
                                             uid: widget.uid,
                                           )));
                             }
                           : () {}),
+                  error == '' ? Container() : ErrorTextDesign(text: error),
                 ],
               ),
             ),

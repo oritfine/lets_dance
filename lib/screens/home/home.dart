@@ -97,39 +97,39 @@ class _HomeState extends State<Home> {
         ),
         body: Column(
           children: [
-            ElevatedButton(
-              //style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
-              style: ElevatedButton.styleFrom(primary: button_color),
-              child: Text(
-                'Upload New Video',
-                style: TextStyle(color: Colors.grey[300]),
-              ),
-              onPressed: () async {
-                //_db.getVideosOfUser('KrWc0wp9MhXxCWhNQ5q8qTt7Iyj1');
-                // Video v = await _db.getVideoOfUser('1PiM5YGDtbRF2lC7esMu');
-                // print('yey');
-                // // VideoPlayerController videoPlayerController =
-                //     VideoPlayerController.network(
-                //         'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/get_video?url=final_yanir_1655739133326.mp4')
-                //       ..initialize();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SaveVideo(
-                              url:
-                                  'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                              //videoPlayerController: videoPlayerController,
-                              uid: 'KrWc0wp9MhXxCWhNQ5q8qTt7Iyj1',
-                            )));
-                // String video_id = await _db.addVideo(
-                //     'video',
-                //     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                //     firebase_auth.currentUser!.uid) as String;
-                // _db.usersCollection.doc(firebase_auth.currentUser!.uid).update({
-                //   'videos': FieldValue.arrayUnion([video_id])
-                // });
-              },
-            ),
+            // ElevatedButton(
+            //   //style: ElevatedButton.styleFrom(primary: Colors.pink[400]),
+            //   style: ElevatedButton.styleFrom(primary: button_color),
+            //   child: Text(
+            //     'Upload New Video',
+            //     style: TextStyle(color: Colors.grey[300]),
+            //   ),
+            //   onPressed: () async {
+            //     //_db.getVideosOfUser('KrWc0wp9MhXxCWhNQ5q8qTt7Iyj1');
+            //     // Video v = await _db.getVideoOfUser('1PiM5YGDtbRF2lC7esMu');
+            //     // print('yey');
+            //     // // VideoPlayerController videoPlayerController =
+            //     //     VideoPlayerController.network(
+            //     //         'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/get_video?url=final_yanir_1655739133326.mp4')
+            //     //       ..initialize();
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => SaveVideo(
+            //                   url:
+            //                       'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+            //                   //videoPlayerController: videoPlayerController,
+            //                   uid: 'KrWc0wp9MhXxCWhNQ5q8qTt7Iyj1',
+            //                 )));
+            //     // String video_id = await _db.addVideo(
+            //     //     'video',
+            //     //     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+            //     //     firebase_auth.currentUser!.uid) as String;
+            //     // _db.usersCollection.doc(firebase_auth.currentUser!.uid).update({
+            //     //   'videos': FieldValue.arrayUnion([video_id])
+            //     // });
+            //   },
+            // ),
             Container(
               height: MediaQuery.of(context).size.height * 0.8,
               //child: MyVideosList(uid: firebase_auth.currentUser?.uid),

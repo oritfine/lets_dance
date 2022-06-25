@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lets_dance/screens/my_videos.dart';
+import 'package:lets_dance/screens/videos_list.dart';
 import 'package:lets_dance/shared/consts_objects/loading.dart';
 import 'package:http/http.dart' as http;
 
@@ -244,11 +245,7 @@ class _SaveVideoState extends State<SaveVideo> {
                         ),
                         error == ''
                             ? Container()
-                            : Text(
-                                error,
-                                style: TextStyle(
-                                    color: Colors.red, fontSize: 14.0),
-                              )
+                            : ErrorTextDesign(text: error),
                       ],
                     ),
                   ),

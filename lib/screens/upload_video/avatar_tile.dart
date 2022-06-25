@@ -17,24 +17,6 @@ class AvatarTile extends StatefulWidget {
 }
 
 class _AvatarTileState extends State<AvatarTile> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//         padding: EdgeInsets.only(top: 8.0),
-//         child: Card(
-//           margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-//           child: ListTile(
-//             // leading: CircleAvatar(
-//             //   radius: 25.0,
-//             //   backgroundColor: Colors.brown[user.num], //num=darkness of color
-//             // ),
-//             title: Text(user.name),
-//             //subtitle: Text('this is a user'),
-//           ),
-//         ));
-//   }
-// }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -46,11 +28,8 @@ class _AvatarTileState extends State<AvatarTile> {
                   padding: const EdgeInsets.only(left: 5, right: 5),
                   child: Column(
                     children: [
-                      //Flexible(
-                      //child: Text(
                       TextDesign(text: widget.avatarName, size: 15),
                       SizedBox(height: 7),
-                      // ),
                       Image.asset(
                         widget.avatarPath,
                         fit: BoxFit.contain,
@@ -61,16 +40,13 @@ class _AvatarTileState extends State<AvatarTile> {
                 ))
             : Container(
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0),
+                  color: Colors.transparent,
                 ),
                 child: Container(
                   padding: const EdgeInsets.only(left: 5, right: 5),
                   child: Column(
                     children: [
-                      //Flexible(
-                      // child: Text(
                       TextDesign(text: widget.avatarName, size: 15),
-                      //),
                       SizedBox(height: 7),
                       Image.asset(
                         widget.avatarPath,

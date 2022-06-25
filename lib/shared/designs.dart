@@ -36,6 +36,22 @@ class TextDesign extends StatelessWidget {
   }
 }
 
+class ErrorTextDesign extends StatelessWidget {
+  const ErrorTextDesign({Key? key, required this.text}) : super(key: key);
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      overflow: TextOverflow.ellipsis,
+      style: GoogleFonts.josefinSans(
+          fontWeight: FontWeight.w600, fontSize: 14, color: Colors.red),
+    );
+  }
+}
+
 class AppBarDesign extends StatelessWidget implements PreferredSizeWidget {
   AppBarDesign({required this.text});
   final String text;
@@ -55,7 +71,7 @@ class AppBarDesign extends StatelessWidget implements PreferredSizeWidget {
 
 final BorderTileDesign = BoxDecoration(
   color: Colors.white.withOpacity(0),
-  borderRadius: new BorderRadius.circular(15.0),
+  borderRadius: new BorderRadius.circular(8.0),
   border: Border.all(
     color: text_color!,
     width: 5,
