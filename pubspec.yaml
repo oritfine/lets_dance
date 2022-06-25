@@ -175,6 +175,7 @@ flutter:
      - google_fonts/Passion_One/
      - google_fonts/Signika/
      - google_fonts/Signika_Negative/
+     - images/icon.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

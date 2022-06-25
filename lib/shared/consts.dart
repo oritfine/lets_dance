@@ -1,12 +1,18 @@
 String upload_and_process_url =
-    'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/upload_and_process';
-String get_video_url =
-    'https://09dd-2a02-6680-2109-a7cb-3956-c0bd-dc1d-fbd6.eu.ngrok.io/get_video?url=final_';
+    'https://ee13-82-166-29-42.eu.ngrok.io/upload_and_process';
+String get_video_url = 'https://ee13-82-166-29-42.eu.ngrok.io/get_video?url=';
 String choose_background_text = 'Choose a background for your video:';
 String choose_avatar_text = 'Choose an avatar for your video:';
 String choose_emoji_text = 'Choose an emoji for your avatar:';
 String generate_text = 'Generating your Lets-Dance video';
-
+List<String> video_fields = [
+  'likers',
+  'likes',
+  'name',
+  'url',
+  'user_id',
+  'video_id'
+];
 List<String> avatarNames = [
   'Green',
   'Pink-Lightblue-Yellow',
@@ -59,8 +65,10 @@ String get_image_path(String type, String imageName) {
   }
   if (type == 'avatar') {
     return 'images/avatars/$imageName.png';
-  } else {
-    // type == 'emoji'
+  }
+  if (type == 'emoji') {
     return 'images/faces/$imageName.png';
+  } else {
+    return 'images/$imageName.png';
   }
 }

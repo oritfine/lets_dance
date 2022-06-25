@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../models/video.dart';
 import '../services/database.dart';
+import '../shared/consts.dart';
 import '../shared/consts_objects/video_object.dart';
 
 class VideoList extends StatefulWidget {
@@ -103,7 +104,7 @@ class _VideoListState extends State<VideoList> {
                         child: VideoWidget(
                           uid: widget.uid,
                           play: isInView,
-                          url: videos[index].url,
+                          url: get_video_url + videos[index].url,
                           video: videos[index],
                           showDetails: true,
                           // showLikes: true,

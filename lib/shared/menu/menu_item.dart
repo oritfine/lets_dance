@@ -25,7 +25,7 @@ class MyMenuItem extends StatelessWidget {
             Icon(
               icon,
               size: 25,
-              color: Colors.white,
+              color: text_color,
             ),
             const SizedBox(
               width: 25,
@@ -61,7 +61,7 @@ class VideoMenuItem extends StatelessWidget {
             Icon(
               icon,
               size: 25,
-              color: Colors.white,
+              color: text_color,
             ),
             const SizedBox(
               width: 25,

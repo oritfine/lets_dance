@@ -1,4 +1,3 @@
-// import 'package:firebase/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lets_dance/services/database.dart';
 import '../models/my_user.dart';

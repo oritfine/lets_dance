@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lets_dance/shared/consts.dart';
 
 import '../models/user.dart';
 import '../models/video.dart';
@@ -7,7 +8,7 @@ import '../models/videos.dart';
 class DatabaseService {
   final String? uid;
   DatabaseService({this.uid});
-  // collection reference
+  // collection references
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection("users");
   final CollectionReference userVideosCollection =
@@ -27,11 +28,22 @@ class DatabaseService {
     return [];
   }
 
+  bool check_keys(Map data) {
+    bool flag = true;
+    video_fields.forEach((key) {
+      if (!data.containsKey(key)) {
+        flag = false;
+      }
+    });
+    return flag;
+  }
+
   Future<Video> getVideoOfUser(String video_id) async {
     var mydoc = videosCollection.doc(video_id);
     var snapshot = await mydoc.get();
     if (snapshot.exists) {
       var data = snapshot.data() as Map;
+
       if (data != null) {
         return Video(
             video_id: video_id,
@@ -80,11 +92,6 @@ class DatabaseService {
   }
 
   // get user document from id
-  // Stream<UserData> get userData {
-  //   return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
-  // }
-
-  // get user document from id
   Stream<UserModel> get user {
     //return usersCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
     return usersCollection
@@ -92,12 +99,6 @@ class DatabaseService {
         .snapshots()
         .map(_userDataFromSnapshot); //: Stream<UserModel>.value(null);
   }
-
-  // Future<List<Object?>> getUsersData() async {
-  //   QuerySnapshot querySnapshot = await usersCollection.get();
-  //   final data = querySnapshot.docs.map((doc) => doc.data()).toList();
-  //   return data;
-  // }
 
   // ------------ user video collection ------------
 
@@ -216,7 +217,7 @@ class DatabaseService {
   List<Video> _videosListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc) {
       return Video(
-          video_id: doc.id,
+          video_id: snapshot.docs[0].get('video_id') ?? '',
           name: doc.get('name') ?? '',
           url: doc.get('url') ?? '',
           likes: doc.get('likes') ?? 0,

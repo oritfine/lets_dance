@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-
 import '../../models/video.dart';
 import '../../services/database.dart';
 import '../designs.dart';
@@ -51,10 +50,8 @@ class _VideoWidgetState extends State<VideoWidget> {
 
   unlike() async {
     int prevLikersLength = widget.video.likers.length;
-    print('prev:' + prevLikersLength.toString());
     int newLikersLength =
         await _db.removeLiker(widget.uid, widget.video.video_id);
-    print('curr:' + newLikersLength.toString());
     if (newLikersLength != -1 && newLikersLength != prevLikersLength) {
       await _db.removeLike(widget.uid, widget.video.video_id);
     }

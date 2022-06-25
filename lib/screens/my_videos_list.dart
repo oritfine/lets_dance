@@ -66,9 +66,13 @@ class _MyVideosListState extends State<MyVideosList> {
   Future<List<dynamic>> getDataFromDB() async {
     List<dynamic> video_ids = await _db.getVideosOfUser(widget.uid) as List;
     List<String> videos = [];
-    video_ids.forEach((video) {
-      _db.getVideoOfUser(video);
-    });
+    try {
+      video_ids.forEach((video) {
+        _db.getVideoOfUser(video);
+      });
+    } catch (e) {
+      print('empty list');
+    }
     return videos;
   }
 
@@ -78,15 +82,19 @@ class _MyVideosListState extends State<MyVideosList> {
     print('my videos:');
     print(widget.videos);
     print(userModel);
-    print(userModel.videos);
-    print(userModel.videos[0]);
+    //print(userModel.videos);
+    //print(userModel.videos[0]);
     //userModel.
     //List videos = await getDataFromDB();
     print('yy');
     print(userModel.name);
-    widget.videos.forEach((video) => {
-          if (video.user_id == widget.uid) {my_videos.add(video)}
-        });
+    try {
+      widget.videos.forEach((video) => {
+            if (video.user_id == widget.uid) {my_videos.add(video)}
+          });
+    } catch (e) {
+      print('my videos is empty');
+    }
     print('my_videos are:');
     print(my_videos);
     return loading
@@ -95,104 +103,106 @@ class _MyVideosListState extends State<MyVideosList> {
         : Stack(
             fit: StackFit.expand,
             children: <Widget>[
-              InViewNotifierList(
-                scrollDirection: Axis.vertical,
-                initialInViewIds: ['0'],
-                isInViewPortCondition: (double deltaTop, double deltaBottom,
-                    double viewPortDimension) {
-                  return deltaTop < (0.5 * viewPortDimension) &&
-                      deltaBottom > (0.5 * viewPortDimension);
-                },
-                itemCount: my_videos.length,
-                builder: (BuildContext context, int index) {
-                  //final videos = Provider.of<List<Video>>(context);
-                  return Container(
-                    width: double.infinity,
-                    //height: MediaQuery.of(context).size.height * 0.8,
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(vertical: 30.0),
-                    child: LayoutBuilder(
-                      builder:
-                          (BuildContext context, BoxConstraints constraints) {
-                        return InViewNotifierWidget(
-                          id: '$index',
-                          builder: (BuildContext context, bool isInView,
-                              Widget? child) {
-                            return Container(
-                              //height: 500,
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: IconButton(
-                                        onPressed: () {
-                                          _showSettingsPanel(
-                                              my_videos[index].video_id);
-                                        },
-                                        icon: Icon(
-                                          Icons.more_horiz,
-                                          color: text_color,
-                                        )),
-                                  ),
-                                  VideoWidget(
-                                    uid: widget.uid,
-                                    play: isInView,
-                                    url: my_videos[index].url,
-                                    showDetails: true,
-                                    // showLikes: true,
-                                    // showName: true,
-                                    video: my_videos[index],
-                                    // isLiked: my_videos[index]
-                                    //         .likers
-                                    //         .contains(widget.uid)
-                                    //     ? true
-                                    //     : false
-                                    //onTap: () {},
-                                  ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(
-                                  //       left: 25, right: 15),
-                                  //   child: Row(
-                                  //     mainAxisAlignment:
-                                  //         MainAxisAlignment.spaceBetween,
-                                  //     children: [
-                                  //       TextDesign(
-                                  //           text: my_videos[index].name,
-                                  //           size: 20),
-                                  //       Row(
-                                  //         mainAxisAlignment:
-                                  //             MainAxisAlignment.spaceBetween,
-                                  //         children: [
-                                  //           TextDesign(
-                                  //               text: my_videos[index]
-                                  //                   .likes
-                                  //                   .toString(),
-                                  //               size: 20),
-                                  //           IconButton(
-                                  //               onPressed: () {
-                                  //                 print('h');
-                                  //                 // _db.addLike(
-                                  //                 //     widget.uid, videos[index].);
-                                  //               },
-                                  //               icon: Icon(
-                                  //                 Icons.favorite,
-                                  //                 color: Colors.red[900],
-                                  //               ))
-                                  //         ],
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            );
-                          },
+              my_videos.isEmpty
+                  ? Container()
+                  : InViewNotifierList(
+                      scrollDirection: Axis.vertical,
+                      initialInViewIds: ['0'],
+                      isInViewPortCondition: (double deltaTop,
+                          double deltaBottom, double viewPortDimension) {
+                        return deltaTop < (0.5 * viewPortDimension) &&
+                            deltaBottom > (0.5 * viewPortDimension);
+                      },
+                      itemCount: my_videos.length,
+                      builder: (BuildContext context, int index) {
+                        //final videos = Provider.of<List<Video>>(context);
+                        return Container(
+                          width: double.infinity,
+                          //height: MediaQuery.of(context).size.height * 0.8,
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.symmetric(vertical: 30.0),
+                          child: LayoutBuilder(
+                            builder: (BuildContext context,
+                                BoxConstraints constraints) {
+                              return InViewNotifierWidget(
+                                id: '$index',
+                                builder: (BuildContext context, bool isInView,
+                                    Widget? child) {
+                                  return Container(
+                                    //height: 500,
+                                    child: Column(
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: IconButton(
+                                              onPressed: () {
+                                                _showSettingsPanel(
+                                                    my_videos[index].video_id);
+                                              },
+                                              icon: Icon(
+                                                Icons.more_horiz,
+                                                color: text_color,
+                                              )),
+                                        ),
+                                        VideoWidget(
+                                          uid: widget.uid,
+                                          play: isInView,
+                                          url: my_videos[index].url,
+                                          showDetails: true,
+                                          // showLikes: true,
+                                          // showName: true,
+                                          video: my_videos[index],
+                                          // isLiked: my_videos[index]
+                                          //         .likers
+                                          //         .contains(widget.uid)
+                                          //     ? true
+                                          //     : false
+                                          //onTap: () {},
+                                        ),
+                                        // Padding(
+                                        //   padding: const EdgeInsets.only(
+                                        //       left: 25, right: 15),
+                                        //   child: Row(
+                                        //     mainAxisAlignment:
+                                        //         MainAxisAlignment.spaceBetween,
+                                        //     children: [
+                                        //       TextDesign(
+                                        //           text: my_videos[index].name,
+                                        //           size: 20),
+                                        //       Row(
+                                        //         mainAxisAlignment:
+                                        //             MainAxisAlignment.spaceBetween,
+                                        //         children: [
+                                        //           TextDesign(
+                                        //               text: my_videos[index]
+                                        //                   .likes
+                                        //                   .toString(),
+                                        //               size: 20),
+                                        //           IconButton(
+                                        //               onPressed: () {
+                                        //                 print('h');
+                                        //                 // _db.addLike(
+                                        //                 //     widget.uid, videos[index].);
+                                        //               },
+                                        //               icon: Icon(
+                                        //                 Icons.favorite,
+                                        //                 color: Colors.red[900],
+                                        //               ))
+                                        //         ],
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         );
                       },
                     ),
-                  );
-                },
-              ),
             ],
           );
     // : StreamBuilder(

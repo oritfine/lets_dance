@@ -7,6 +7,7 @@ import '../../models/video.dart';
 import '../../screens/my_videos_list.dart';
 import '../../screens/upload_video/browse_video.dart';
 import '../../services/auth.dart';
+import '../consts.dart';
 import '../designs.dart';
 
 class NavigationMenu extends StatelessWidget {
@@ -75,8 +76,13 @@ class NavigationMenu extends StatelessWidget {
           // padding: EdgeInsets.only(top:24+ MediaQuery.of(context).padding.top, bottom: 24),
           child: Row(
             children: [
-              CircleAvatar(radius: 35, backgroundColor: Colors.pink),
-              /*const*/ SizedBox(
+              CircleAvatar(
+                radius: 35,
+                backgroundImage: AssetImage(
+                  get_image_path('icon', 'icon'),
+                ),
+              ),
+              SizedBox(
                 width: 20,
               ),
               Column(

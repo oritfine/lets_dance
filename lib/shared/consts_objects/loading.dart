@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lets_dance/shared/designs.dart';
-
 import '../consts.dart';
 
 class Loading extends StatelessWidget {
-  //const Loading({Key? key}) : super(key: key);
+  const Loading({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class Generating extends StatelessWidget {
             color: text_color,
             size: 50.0,
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           TextDesign(text: generate_text, size: 20),

@@ -244,11 +244,7 @@ class _SaveVideoState extends State<SaveVideo> {
                         ),
                         error == ''
                             ? Container()
-                            : Text(
-                                error,
-                                style: TextStyle(
-                                    color: Colors.red, fontSize: 14.0),
-                              )
+                            : ErrorTextDesign(text: error),
                       ],
                     ),
                   ),
